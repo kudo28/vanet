@@ -1,0 +1,6 @@
+<launch>
+  <copy file="manhattan.net.xml"/>
+  <copy file="manhattan.rou.xml"/>
+  <copy file="manhattan.sumocfg" type="config"/>
+    <copy file="manhattan.gui-settings.xml"/>
+</launch>
