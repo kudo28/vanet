@@ -21,6 +21,14 @@ import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
 //
 simple VirusAppl extends BaseWaveApplLayer
 {
-    @class(VirusAppl);
-    string appName = default("VirusAppl");
+	parameters:
+		@class(VirusAppl);
+		string appName = default("VirusAppl");
+		int commStart = default(30);
+		int infectStart = default(0);
+		int infectStop = default(3600);
+		double infectProb = default(0.10);
+		bool patchingOn = default(false);
+		bool regenPatchingOn = default(false);
+		int commRadius @unit(m) = default(100m);
 }

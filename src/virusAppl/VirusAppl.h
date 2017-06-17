@@ -3,6 +3,7 @@
 
 #include <omnetpp.h>
 #include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
+#include "veins/base/utils/Coord.h"
 
 using namespace omnetpp;
 
@@ -21,11 +22,9 @@ class VirusAppl : public BaseWaveApplLayer {
     protected:
         bool infected;
         bool patcher;
+        bool sentMessage;
     protected:
-        virtual void onBSM(BasicSafetyMessage* bsm);
         virtual void onWSM(WaveShortMessage* wsm);
-        virtual void onWSA(WaveServiceAdvertisement* wsa);
-
         virtual void handleSelfMsg(cMessage* msg);
         virtual void handlePositionUpdate(cObject* obj);
     };

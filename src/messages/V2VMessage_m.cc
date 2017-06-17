@@ -1,5 +1,5 @@
 //
-// Generated file, do not edit! Created by nedtool 5.0 from messages/Car2XMessage.msg.
+// Generated file, do not edit! Created by nedtool 5.0 from messages/V2VMessage.msg.
 //
 
 // Disable warnings about unused variables, empty switch stmts, etc:
@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <sstream>
-#include "Car2XMessage_m.h"
+#include "V2VMessage_m.h"
 
 namespace omnetpp {
 
@@ -161,28 +161,33 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
     return out;
 }
 
-Register_Class(Car2XMessage);
+EXECUTE_ON_STARTUP(
+    omnetpp::cEnum *e = omnetpp::cEnum::find("PayloadType");
+    if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("PayloadType"));
+    e->insert(STANDARD, "STANDARD");
+    e->insert(VIRUS, "VIRUS");
+    e->insert(PATCH, "PATCH");
+);
 
-Car2XMessage::Car2XMessage(const char *name, int kind) : ::WaveShortMessage(name,kind)
+Register_Class(V2VMessage);
+
+V2VMessage::V2VMessage(const char *name, int kind) : ::WaveShortMessage(name,kind)
 {
     this->creationTime = 0;
     this->hops = 0;
-    this->unique_id = 0;
-    this->monitorMsg = false;
-    this->maxTravelledDistance = 0;
-    this->virus = false;
+    this->payloadType = 0;
 }
 
-Car2XMessage::Car2XMessage(const Car2XMessage& other) : ::WaveShortMessage(other)
+V2VMessage::V2VMessage(const V2VMessage& other) : ::WaveShortMessage(other)
 {
     copy(other);
 }
 
-Car2XMessage::~Car2XMessage()
+V2VMessage::~V2VMessage()
 {
 }
 
-Car2XMessage& Car2XMessage::operator=(const Car2XMessage& other)
+V2VMessage& V2VMessage::operator=(const V2VMessage& other)
 {
     if (this==&other) return *this;
     ::WaveShortMessage::operator=(other);
@@ -190,118 +195,79 @@ Car2XMessage& Car2XMessage::operator=(const Car2XMessage& other)
     return *this;
 }
 
-void Car2XMessage::copy(const Car2XMessage& other)
+void V2VMessage::copy(const V2VMessage& other)
 {
     this->creationTime = other.creationTime;
-    this->originPosition = other.originPosition;
+    this->senderPosition = other.senderPosition;
     this->hops = other.hops;
-    this->unique_id = other.unique_id;
-    this->monitorMsg = other.monitorMsg;
-    this->maxTravelledDistance = other.maxTravelledDistance;
-    this->virus = other.virus;
+    this->payloadType = other.payloadType;
 }
 
-void Car2XMessage::parsimPack(omnetpp::cCommBuffer *b) const
+void V2VMessage::parsimPack(omnetpp::cCommBuffer *b) const
 {
     ::WaveShortMessage::parsimPack(b);
     doParsimPacking(b,this->creationTime);
-    doParsimPacking(b,this->originPosition);
+    doParsimPacking(b,this->senderPosition);
     doParsimPacking(b,this->hops);
-    doParsimPacking(b,this->unique_id);
-    doParsimPacking(b,this->monitorMsg);
-    doParsimPacking(b,this->maxTravelledDistance);
-    doParsimPacking(b,this->virus);
+    doParsimPacking(b,this->payloadType);
 }
 
-void Car2XMessage::parsimUnpack(omnetpp::cCommBuffer *b)
+void V2VMessage::parsimUnpack(omnetpp::cCommBuffer *b)
 {
     ::WaveShortMessage::parsimUnpack(b);
     doParsimUnpacking(b,this->creationTime);
-    doParsimUnpacking(b,this->originPosition);
+    doParsimUnpacking(b,this->senderPosition);
     doParsimUnpacking(b,this->hops);
-    doParsimUnpacking(b,this->unique_id);
-    doParsimUnpacking(b,this->monitorMsg);
-    doParsimUnpacking(b,this->maxTravelledDistance);
-    doParsimUnpacking(b,this->virus);
+    doParsimUnpacking(b,this->payloadType);
 }
 
-::omnetpp::simtime_t Car2XMessage::getCreationTime() const
+::omnetpp::simtime_t V2VMessage::getCreationTime() const
 {
     return this->creationTime;
 }
 
-void Car2XMessage::setCreationTime(::omnetpp::simtime_t creationTime)
+void V2VMessage::setCreationTime(::omnetpp::simtime_t creationTime)
 {
     this->creationTime = creationTime;
 }
 
-Coord& Car2XMessage::getOriginPosition()
+Coord& V2VMessage::getSenderPosition()
 {
-    return this->originPosition;
+    return this->senderPosition;
 }
 
-void Car2XMessage::setOriginPosition(const Coord& originPosition)
+void V2VMessage::setSenderPosition(const Coord& senderPosition)
 {
-    this->originPosition = originPosition;
+    this->senderPosition = senderPosition;
 }
 
-int Car2XMessage::getHops() const
+int V2VMessage::getHops() const
 {
     return this->hops;
 }
 
-void Car2XMessage::setHops(int hops)
+void V2VMessage::setHops(int hops)
 {
     this->hops = hops;
 }
 
-unsigned long Car2XMessage::getUnique_id() const
+int V2VMessage::getPayloadType() const
 {
-    return this->unique_id;
+    return this->payloadType;
 }
 
-void Car2XMessage::setUnique_id(unsigned long unique_id)
+void V2VMessage::setPayloadType(int payloadType)
 {
-    this->unique_id = unique_id;
+    this->payloadType = payloadType;
 }
 
-bool Car2XMessage::getMonitorMsg() const
-{
-    return this->monitorMsg;
-}
-
-void Car2XMessage::setMonitorMsg(bool monitorMsg)
-{
-    this->monitorMsg = monitorMsg;
-}
-
-double Car2XMessage::getMaxTravelledDistance() const
-{
-    return this->maxTravelledDistance;
-}
-
-void Car2XMessage::setMaxTravelledDistance(double maxTravelledDistance)
-{
-    this->maxTravelledDistance = maxTravelledDistance;
-}
-
-bool Car2XMessage::getVirus() const
-{
-    return this->virus;
-}
-
-void Car2XMessage::setVirus(bool virus)
-{
-    this->virus = virus;
-}
-
-class Car2XMessageDescriptor : public omnetpp::cClassDescriptor
+class V2VMessageDescriptor : public omnetpp::cClassDescriptor
 {
   private:
     mutable const char **propertynames;
   public:
-    Car2XMessageDescriptor();
-    virtual ~Car2XMessageDescriptor();
+    V2VMessageDescriptor();
+    virtual ~V2VMessageDescriptor();
 
     virtual bool doesSupport(omnetpp::cObject *obj) const override;
     virtual const char **getPropertyNames() const override;
@@ -322,24 +288,24 @@ class Car2XMessageDescriptor : public omnetpp::cClassDescriptor
     virtual void *getFieldStructValuePointer(void *object, int field, int i) const override;
 };
 
-Register_ClassDescriptor(Car2XMessageDescriptor);
+Register_ClassDescriptor(V2VMessageDescriptor);
 
-Car2XMessageDescriptor::Car2XMessageDescriptor() : omnetpp::cClassDescriptor("Car2XMessage", "WaveShortMessage")
+V2VMessageDescriptor::V2VMessageDescriptor() : omnetpp::cClassDescriptor("V2VMessage", "WaveShortMessage")
 {
     propertynames = nullptr;
 }
 
-Car2XMessageDescriptor::~Car2XMessageDescriptor()
+V2VMessageDescriptor::~V2VMessageDescriptor()
 {
     delete[] propertynames;
 }
 
-bool Car2XMessageDescriptor::doesSupport(omnetpp::cObject *obj) const
+bool V2VMessageDescriptor::doesSupport(omnetpp::cObject *obj) const
 {
-    return dynamic_cast<Car2XMessage *>(obj)!=nullptr;
+    return dynamic_cast<V2VMessage *>(obj)!=nullptr;
 }
 
-const char **Car2XMessageDescriptor::getPropertyNames() const
+const char **V2VMessageDescriptor::getPropertyNames() const
 {
     if (!propertynames) {
         static const char *names[] = {  nullptr };
@@ -350,19 +316,19 @@ const char **Car2XMessageDescriptor::getPropertyNames() const
     return propertynames;
 }
 
-const char *Car2XMessageDescriptor::getProperty(const char *propertyname) const
+const char *V2VMessageDescriptor::getProperty(const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     return basedesc ? basedesc->getProperty(propertyname) : nullptr;
 }
 
-int Car2XMessageDescriptor::getFieldCount() const
+int V2VMessageDescriptor::getFieldCount() const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
-    return basedesc ? 7+basedesc->getFieldCount() : 7;
+    return basedesc ? 4+basedesc->getFieldCount() : 4;
 }
 
-unsigned int Car2XMessageDescriptor::getFieldTypeFlags(int field) const
+unsigned int V2VMessageDescriptor::getFieldTypeFlags(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -375,14 +341,11 @@ unsigned int Car2XMessageDescriptor::getFieldTypeFlags(int field) const
         FD_ISCOMPOUND,
         FD_ISEDITABLE,
         FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
-        FD_ISEDITABLE,
     };
-    return (field>=0 && field<7) ? fieldTypeFlags[field] : 0;
+    return (field>=0 && field<4) ? fieldTypeFlags[field] : 0;
 }
 
-const char *Car2XMessageDescriptor::getFieldName(int field) const
+const char *V2VMessageDescriptor::getFieldName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -392,31 +355,25 @@ const char *Car2XMessageDescriptor::getFieldName(int field) const
     }
     static const char *fieldNames[] = {
         "creationTime",
-        "originPosition",
+        "senderPosition",
         "hops",
-        "unique_id",
-        "monitorMsg",
-        "maxTravelledDistance",
-        "virus",
+        "payloadType",
     };
-    return (field>=0 && field<7) ? fieldNames[field] : nullptr;
+    return (field>=0 && field<4) ? fieldNames[field] : nullptr;
 }
 
-int Car2XMessageDescriptor::findField(const char *fieldName) const
+int V2VMessageDescriptor::findField(const char *fieldName) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     int base = basedesc ? basedesc->getFieldCount() : 0;
     if (fieldName[0]=='c' && strcmp(fieldName, "creationTime")==0) return base+0;
-    if (fieldName[0]=='o' && strcmp(fieldName, "originPosition")==0) return base+1;
+    if (fieldName[0]=='s' && strcmp(fieldName, "senderPosition")==0) return base+1;
     if (fieldName[0]=='h' && strcmp(fieldName, "hops")==0) return base+2;
-    if (fieldName[0]=='u' && strcmp(fieldName, "unique_id")==0) return base+3;
-    if (fieldName[0]=='m' && strcmp(fieldName, "monitorMsg")==0) return base+4;
-    if (fieldName[0]=='m' && strcmp(fieldName, "maxTravelledDistance")==0) return base+5;
-    if (fieldName[0]=='v' && strcmp(fieldName, "virus")==0) return base+6;
+    if (fieldName[0]=='p' && strcmp(fieldName, "payloadType")==0) return base+3;
     return basedesc ? basedesc->findField(fieldName) : -1;
 }
 
-const char *Car2XMessageDescriptor::getFieldTypeString(int field) const
+const char *V2VMessageDescriptor::getFieldTypeString(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -428,15 +385,12 @@ const char *Car2XMessageDescriptor::getFieldTypeString(int field) const
         "simtime_t",
         "Coord",
         "int",
-        "unsigned long",
-        "bool",
-        "double",
-        "bool",
+        "int",
     };
-    return (field>=0 && field<7) ? fieldTypeStrings[field] : nullptr;
+    return (field>=0 && field<4) ? fieldTypeStrings[field] : nullptr;
 }
 
-const char **Car2XMessageDescriptor::getFieldPropertyNames(int field) const
+const char **V2VMessageDescriptor::getFieldPropertyNames(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -445,11 +399,15 @@ const char **Car2XMessageDescriptor::getFieldPropertyNames(int field) const
         field -= basedesc->getFieldCount();
     }
     switch (field) {
+        case 3: {
+            static const char *names[] = { "enum",  nullptr };
+            return names;
+        }
         default: return nullptr;
     }
 }
 
-const char *Car2XMessageDescriptor::getFieldProperty(int field, const char *propertyname) const
+const char *V2VMessageDescriptor::getFieldProperty(int field, const char *propertyname) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -458,11 +416,14 @@ const char *Car2XMessageDescriptor::getFieldProperty(int field, const char *prop
         field -= basedesc->getFieldCount();
     }
     switch (field) {
+        case 3:
+            if (!strcmp(propertyname,"enum")) return "PayloadType";
+            return nullptr;
         default: return nullptr;
     }
 }
 
-int Car2XMessageDescriptor::getFieldArraySize(void *object, int field) const
+int V2VMessageDescriptor::getFieldArraySize(void *object, int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -470,13 +431,13 @@ int Car2XMessageDescriptor::getFieldArraySize(void *object, int field) const
             return basedesc->getFieldArraySize(object, field);
         field -= basedesc->getFieldCount();
     }
-    Car2XMessage *pp = (Car2XMessage *)object; (void)pp;
+    V2VMessage *pp = (V2VMessage *)object; (void)pp;
     switch (field) {
         default: return 0;
     }
 }
 
-std::string Car2XMessageDescriptor::getFieldValueAsString(void *object, int field, int i) const
+std::string V2VMessageDescriptor::getFieldValueAsString(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -484,20 +445,17 @@ std::string Car2XMessageDescriptor::getFieldValueAsString(void *object, int fiel
             return basedesc->getFieldValueAsString(object,field,i);
         field -= basedesc->getFieldCount();
     }
-    Car2XMessage *pp = (Car2XMessage *)object; (void)pp;
+    V2VMessage *pp = (V2VMessage *)object; (void)pp;
     switch (field) {
         case 0: return simtime2string(pp->getCreationTime());
-        case 1: {std::stringstream out; out << pp->getOriginPosition(); return out.str();}
+        case 1: {std::stringstream out; out << pp->getSenderPosition(); return out.str();}
         case 2: return long2string(pp->getHops());
-        case 3: return ulong2string(pp->getUnique_id());
-        case 4: return bool2string(pp->getMonitorMsg());
-        case 5: return double2string(pp->getMaxTravelledDistance());
-        case 6: return bool2string(pp->getVirus());
+        case 3: return enum2string(pp->getPayloadType(), "PayloadType");
         default: return "";
     }
 }
 
-bool Car2XMessageDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
+bool V2VMessageDescriptor::setFieldValueAsString(void *object, int field, int i, const char *value) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -505,19 +463,16 @@ bool Car2XMessageDescriptor::setFieldValueAsString(void *object, int field, int 
             return basedesc->setFieldValueAsString(object,field,i,value);
         field -= basedesc->getFieldCount();
     }
-    Car2XMessage *pp = (Car2XMessage *)object; (void)pp;
+    V2VMessage *pp = (V2VMessage *)object; (void)pp;
     switch (field) {
         case 0: pp->setCreationTime(string2simtime(value)); return true;
         case 2: pp->setHops(string2long(value)); return true;
-        case 3: pp->setUnique_id(string2ulong(value)); return true;
-        case 4: pp->setMonitorMsg(string2bool(value)); return true;
-        case 5: pp->setMaxTravelledDistance(string2double(value)); return true;
-        case 6: pp->setVirus(string2bool(value)); return true;
+        case 3: pp->setPayloadType((PayloadType)string2enum(value, "PayloadType")); return true;
         default: return false;
     }
 }
 
-const char *Car2XMessageDescriptor::getFieldStructName(int field) const
+const char *V2VMessageDescriptor::getFieldStructName(int field) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -531,7 +486,7 @@ const char *Car2XMessageDescriptor::getFieldStructName(int field) const
     };
 }
 
-void *Car2XMessageDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
+void *V2VMessageDescriptor::getFieldStructValuePointer(void *object, int field, int i) const
 {
     omnetpp::cClassDescriptor *basedesc = getBaseClassDescriptor();
     if (basedesc) {
@@ -539,9 +494,9 @@ void *Car2XMessageDescriptor::getFieldStructValuePointer(void *object, int field
             return basedesc->getFieldStructValuePointer(object, field, i);
         field -= basedesc->getFieldCount();
     }
-    Car2XMessage *pp = (Car2XMessage *)object; (void)pp;
+    V2VMessage *pp = (V2VMessage *)object; (void)pp;
     switch (field) {
-        case 1: return (void *)(&pp->getOriginPosition()); break;
+        case 1: return (void *)(&pp->getSenderPosition()); break;
         default: return nullptr;
     }
 }

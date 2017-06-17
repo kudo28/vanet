@@ -26,10 +26,11 @@ Define_Module(VirusAppl);
 void VirusAppl::initialize(int stage) {
     BaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
-        WaveShortMessage* wsm = new WaveShortMessage();
-        populateWSM(wsm);
-        wsm->setSenderAddress(myId);
-        wsm->setSerial(3);
+        sentMessage = false;
+        V2VMessage* vvm = new V2VMessage();
+        populateWSM(vvm);
+        vvm->setSenderAddress(myId);
+        vvm->setSerial(3);
 
 /*      int seed = 1;
         srand(seed);
@@ -37,12 +38,12 @@ void VirusAppl::initialize(int stage) {
 
         if (simTime() > 20 && simTime() < 30) {
             patcher = true;
-            wsm->setWsmData("cure");
+            vvm->setWsmData("cure");
             findHost()->getDisplayString().updateWith("r=30,green");
         }
         else if (simTime() > 30 && simTime() < 40) {
             infected = true;
-            wsm->setWsmData("virus");
+            vvm->setWsmData("virus");
             findHost()->getDisplayString().updateWith("r=30,red");
         }
         else {
@@ -53,67 +54,79 @@ void VirusAppl::initialize(int stage) {
         if (simTime() > 10 && simTime() < 14) {
             infected = true;
             patcher = false;
-            wsm->setWsmData("virus");
+            vvm->setWsmData("virus");
             findHost()->getDisplayString().updateWith("r=30,red");
         }
         else {
             infected = false;
             patcher = true;
-            wsm->setWsmData("cure");
+            vvm->setWsmData("cure");
             findHost()->getDisplayString().updateWith("r=30,green");
         }
 
-        scheduleAt(simTime() + 2 + uniform(0.01,0.2), wsm->dup());
+        scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
     }
 }
 
-void VirusAppl::finish() {
-    BaseWaveApplLayer::finish();
-    //statistics recording goes here
-
-}
-
-void VirusAppl::onBSM(BasicSafetyMessage* bsm) {
-    //Your application has received a beacon message from another car or RSU
-    //code for handling the message goes here
-
-}
 
 void VirusAppl::onWSM(WaveShortMessage* wsm) {
-    //Your application has received a data message from another car or RSU
-    //code for handling the message goes here, see TraciDemo11p.cc for examples
-    if ( strcmp(wsm->getWsmData(), "virus") == 0 ) {
-        infected = true;
-        findHost()->getDisplayString().updateWith("r=30,red");
+    if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(wsm)) {
+        Coord::Coordinate myPosition = traciVehicle->getPosition();
+        int distance = myPosition.distance(vvm->getSenderPosition());
+
+        if (distance < par("commRadius")) {
+
+            switch(vvm.getPayloadType()) {
+            case(VIRUS) :
+                infected = true;
+                findHost()->getDisplayString().updateWith("r=30,red");
+                break;
+            case(PATCH) :
+                infected = false;
+                findHost()->getDisplayString().updateWith("r=30,green");
+                break;
+            case(STANDARD) :
+                //TODO: handle regular traffic update
+                break;
+            }
+
+            int typeToSend;
+            if (patcher) {
+                typeToSend = PATCH;
+            }
+            else if (infected) {
+                typeToSend = VIRUS;
+            }
+            else {
+                typeToSend = STANDARD;
+            }
+
+            vvm->setSerial(3);
+            vvm->setSenderAddress(myId);
+            vvm->setSenderPosition(myPosition);
+            vvm->setPayloadType(typeToSend);
+            scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
+        }
     }
-//    if ( strcmp(wsm->getWsmData(), "cure") == 0 ) {
-//        infected = false;
-//        findHost()->getDisplayString().updateWith("r=30,green");
-//    }
 }
 
-void VirusAppl::onWSA(WaveServiceAdvertisement* wsa) {
-    //Your application has received a service advertisement from another car or RSU
-    //code for handling the message goes here, see TraciDemo11p.cc for examples
-
-}
 
 void VirusAppl::handleSelfMsg(cMessage* msg) {
 //    BaseWaveApplLayer::handleSelfMsg(msg);
-    WaveShortMessage* wsm = new WaveShortMessage();
-    populateWSM(wsm);
+    V2VMessage* vvm = new V2VMessage();
+    populateWSM(vvm);
     if (infected) {
-        wsm->setWsmData("virus");
+        vvm->setWsmData("virus");
     }
 //    else if (patcher) {
     else {
-        wsm->setWsmData("cure");
+        vvm->setWsmData("cure");
     }
     if (simTime() > 25) {
-        sendDown(wsm->dup());
+        sendDown(vvm->dup());
     }
     double interval = 1.0;
-    scheduleAt(simTime() + interval, wsm->dup());
+    scheduleAt(simTime() + interval, vvm->dup());
     //this method is for self messages (mostly timers)
     //it is important to call the BaseWaveApplLayer function for BSM and WSM transmission
 
@@ -123,5 +136,11 @@ void VirusAppl::handlePositionUpdate(cObject* obj) {
     BaseWaveApplLayer::handlePositionUpdate(obj);
     //the vehicle has moved. Code that reacts to new positions goes here.
     //member variables such as currentPosition and currentSpeed are updated in the parent class
+
+}
+
+void VirusAppl::finish() {
+    BaseWaveApplLayer::finish();
+    //statistics recording goes here
 
 }
