@@ -180,6 +180,7 @@ $O/myAppl/MyAppl.o: myAppl/MyAppl.cc \
 	$(VEINS_PROJ)/src/veins/modules/utility/Consts80211p.h \
 	$(VEINS_PROJ)/src/veins/modules/world/annotations/AnnotationManager.h
 $O/virusAppl/VirusAppl.o: virusAppl/VirusAppl.cc \
+	messages/V2VMessage_m.h \
 	virusAppl/VirusAppl.h \
 	$(VEINS_PROJ)/src/veins/base/connectionManager/BaseConnectionManager.h \
 	$(VEINS_PROJ)/src/veins/base/connectionManager/ChannelAccess.h \

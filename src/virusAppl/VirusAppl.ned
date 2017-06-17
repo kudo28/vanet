@@ -30,5 +30,5 @@ simple VirusAppl extends BaseWaveApplLayer
 		double infectProb = default(0.10);
 		bool patchingOn = default(false);
 		bool regenPatchingOn = default(false);
-		int commRadius @unit(m) = default(100m);
+		double commRadius @unit(m) = default(100m);
 }

@@ -19,6 +19,7 @@
 //
 
 #include "VirusAppl.h"
+#include "V2VMessage_m.h"
 #include <cstdlib>
 
 Define_Module(VirusAppl);
@@ -51,7 +52,7 @@ void VirusAppl::initialize(int stage) {
             findHost()->getDisplayString().updateWith("r=30,green");
         }*/
 
-        if (simTime() > 10 && simTime() < 14) {
+        if (simTime() > par("infectStart") && simTime() < par("infectStop")) {
             infected = true;
             patcher = false;
             vvm->setWsmData("virus");
@@ -71,12 +72,12 @@ void VirusAppl::initialize(int stage) {
 
 void VirusAppl::onWSM(WaveShortMessage* wsm) {
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(wsm)) {
-        Coord::Coordinate myPosition = traciVehicle->getPosition();
-        int distance = myPosition.distance(vvm->getSenderPosition());
+        Coord::Coord myPosition = mobility->getCurrentPosition();
+        double distance = myPosition.distance(vvm->getSenderPosition());
 
-        if (distance < par("commRadius")) {
+        if (distance < (double)par("commRadius")) {
 
-            switch(vvm.getPayloadType()) {
+            switch(vvm->getPayloadType()) {
             case(VIRUS) :
                 infected = true;
                 findHost()->getDisplayString().updateWith("r=30,red");
@@ -101,11 +102,14 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 typeToSend = STANDARD;
             }
 
-            vvm->setSerial(3);
-            vvm->setSenderAddress(myId);
-            vvm->setSenderPosition(myPosition);
-            vvm->setPayloadType(typeToSend);
-            scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
+            if (!sentMessage) {
+                sentMessage = true;
+                vvm->setSerial(3);
+                vvm->setSenderAddress(myId);
+                vvm->setSenderPosition(myPosition);
+                vvm->setPayloadType(typeToSend);
+                scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
+            }
         }
     }
 }
@@ -115,16 +119,21 @@ void VirusAppl::handleSelfMsg(cMessage* msg) {
 //    BaseWaveApplLayer::handleSelfMsg(msg);
     V2VMessage* vvm = new V2VMessage();
     populateWSM(vvm);
+
     if (infected) {
-        vvm->setWsmData("virus");
+        vvm->setPayloadType(VIRUS);
     }
-//    else if (patcher) {
+    else if (patcher) {
+        vvm->setPayloadType(PATCH);
+    }
     else {
-        vvm->setWsmData("cure");
+        vvm->setPayloadType(STANDARD);
     }
+
     if (simTime() > 25) {
         sendDown(vvm->dup());
     }
+
     double interval = 1.0;
     scheduleAt(simTime() + interval, vvm->dup());
     //this method is for self messages (mostly timers)
