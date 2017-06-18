@@ -36,19 +36,19 @@ void VirusAppl::initialize(int stage) {
         float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 
         bool shouldInfect = simTime() > (double) par("infectStart") &&
-                            simTime() < (double) par("infectStop") &&
+                            simTime() < (double) par("infectStop")  &&
                             r         < (double) par("infectRate");
 
         bool shouldPatch = simTime() > (double) par("patchStart") &&
-                           simTime() < (double) par("patchStop") &&
-                           r         < (double) par("patchRate") &&
+                           simTime() < (double) par("patchStop")  &&
+                           r         < (double) par("patchRate")  &&
                            par("patchingOn");
 
         if (shouldInfect) {
             infected = true;
             patcher = false;
-            vvm->setPayloadType(VIRUS);
             findHost()->getDisplayString().updateWith("r=30,red");
+            vvm->setPayloadType(VIRUS);
         }
         else if (shouldPatch) {
             infected = false;
@@ -78,15 +78,16 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(wsm)) {
         Coord::Coord myPosition = mobility->getCurrentPosition();
         double distance = myPosition.distance(vvm->getSenderPosition());
-        int typeToSend;
+        PayloadType typeToSend;
 
         if (distance < (double)par("commRadius")) {
 
             switch(vvm->getPayloadType()) {
             case(VIRUS) :
-
-                infected = true;
-                findHost()->getDisplayString().updateWith("r=30,red");
+                if (!patcher) {
+                    infected = true;
+                    findHost()->getDisplayString().updateWith("r=30,red");
+                }
                 break;
             case(PATCH) :
                 infected = false;
@@ -94,6 +95,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 break;
             case(REGEN_PATCH) :
                 infected = false;
+                patcher = true;
                 findHost()->getDisplayString().updateWith("r=30,green");
                 break;
             case(TRAFFIC_UPDATE) :
@@ -102,7 +104,12 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
             }
 
             if (patcher) {
-                typeToSend = PATCH;
+                if (par("regenPatchingOn")) {
+                    typeToSend = REGEN_PATCH;
+                }
+                else {
+                    typeToSend = PATCH;
+                }
             }
             else if (infected) {
                 typeToSend = VIRUS;
@@ -125,29 +132,14 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
 
 
 void VirusAppl::handleSelfMsg(cMessage* msg) {
-//    BaseWaveApplLayer::handleSelfMsg(msg);
-    V2VMessage* vvm = new V2VMessage();
-    populateWSM(vvm);
-
-    if (infected) {
-        vvm->setPayloadType(VIRUS);
+    BaseWaveApplLayer::handleSelfMsg(msg);
+    if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(msg)) {
+        populateWSM(vvm);
+        if (simTime() > (double) par("commStart")) {
+            sendDown(vvm->dup());
+        }
+        scheduleAt(simTime() + (double) par("commInterval"), vvm->dup());
     }
-    else if (patcher) {
-        vvm->setPayloadType(PATCH);
-    }
-    else {
-        vvm->setPayloadType(TRAFFIC_UPDATE);
-    }
-
-    if (simTime() > 25) {
-        sendDown(vvm->dup());
-    }
-
-    double interval = 1.0;
-    scheduleAt(simTime() + interval, vvm->dup());
-    //this method is for self messages (mostly timers)
-    //it is important to call the BaseWaveApplLayer function for BSM and WSM transmission
-
 }
 
 void VirusAppl::handlePositionUpdate(cObject* obj) {

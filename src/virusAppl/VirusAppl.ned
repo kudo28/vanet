@@ -34,4 +34,5 @@ simple VirusAppl extends BaseWaveApplLayer
 		bool patchingOn = default(false);
 		bool regenPatchingOn = default(false);
 		double commRadius @unit(m) = default(100m);
+		double commInterval @unit(s) = default(1s);
 }
