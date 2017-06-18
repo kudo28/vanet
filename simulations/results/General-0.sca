@@ -1,0 +1,411 @@
+version 2
+run General-0-20170616-22:52:30-2556
+attr configname General
+attr datetime 20170616-22:52:30
+attr experiment General
+attr inifile omnetpp.ini
+attr iterationvars ""
+attr iterationvars2 $repetition=0
+attr measurement ""
+attr network GridScenario
+attr processid 2556
+attr repetition 0
+attr replication #0
+attr resultdir results
+attr runnumber 0
+attr seedset 1
+param **.coreDebug false
+param **.debug false
+param *.**.nic.mac1609_4.bitrate 6Mbps
+param *.**.nic.mac1609_4.txPower 20mW
+param *.**.nic.mac1609_4.useServiceChannel false
+param *.**.nic.phy80211p.analogueModels "xmldoc(\"config.xml\")"
+param *.**.nic.phy80211p.collectCollisionStatistics true
+param *.**.nic.phy80211p.decider "xmldoc(\"config.xml\")"
+param *.**.nic.phy80211p.sensitivity -89dBm
+param *.**.nic.phy80211p.thermalNoise -110dBm
+param *.**.nic.phy80211p.usePropagationDelay true
+param *.**.nic.phy80211p.useThermalNoise true
+param *.annotations.draw true
+param *.connectionManager.alpha 2.0
+param *.connectionManager.carrierFrequency "5.890e9 Hz"
+param *.connectionManager.maxInterfDist 500m
+param *.connectionManager.pMax 20mW
+param *.connectionManager.sat -89dBm
+param *.connectionManager.sendDirect true
+param *.manager.autoShutdown true
+param *.manager.host "\"localhost\""
+param *.manager.launchConfig "xmldoc(\"manhattan.launchd.xml\")"
+param *.manager.margin 25
+param *.manager.moduleDisplayString "\"\""
+param *.manager.moduleName "\"node\""
+param *.manager.moduleType "\"org.car2x.veins.nodes.Car\""
+param *.manager.port 9999
+param *.manager.updateInterval 1s
+param *.node[*0].veinsmobility.accidentCount 0
+param *.node[*0].veinsmobility.accidentDuration 30s
+param *.node[*0].veinsmobility.accidentStart 75s
+param *.node[*].appl.debug false
+param *.node[*].applType "\"VirusAppl\""
+param *.node[*].mobilityType "\"TraCIMobility\""
+param *.node[*].mobilityType.debug true
+param *.node[*].veinsmobility.x 0
+param *.node[*].veinsmobility.y 0
+param *.node[*].veinsmobility.z 1.895
+param *.node[*].veinsmobilityType "\"org.car2x.veins.modules.mobility.traci.TraCIMobility\""
+param *.node[*].veinsmobilityType.debug true
+param *.playgroundSizeX 1200m
+param *.playgroundSizeY 900m
+param *.playgroundSizeZ 50m
+param *.world.use2D false
+param *.world.useTorus false
+
+scalar GridScenario.node[3].appl 	generatedWSMs 	0
+scalar GridScenario.node[3].appl 	receivedWSMs 	0
+scalar GridScenario.node[3].appl 	generatedBSMs 	0
+scalar GridScenario.node[3].appl 	receivedBSMs 	0
+scalar GridScenario.node[3].appl 	generatedWSAs 	0
+scalar GridScenario.node[3].appl 	receivedWSAs 	0
+scalar GridScenario.node[3].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[3].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[3].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[3].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[3].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[3].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[3].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[3].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[3].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[3].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[3].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[3].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[3].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[3].nic.mac1609_4 	totalBusyTime 	0
+scalar GridScenario.node[3].veinsmobility 	startTime 	7
+scalar GridScenario.node[3].veinsmobility 	totalTime 	16
+scalar GridScenario.node[3].veinsmobility 	stopTime 	24
+scalar GridScenario.node[3].veinsmobility 	minSpeed 	3.3333096226544
+scalar GridScenario.node[3].veinsmobility 	maxSpeed 	13.898985317233
+scalar GridScenario.node[3].veinsmobility 	totalDistance 	144.18416506449
+scalar GridScenario.node[3].veinsmobility 	totalCO2Emission 	62.51278606025
+scalar GridScenario.node[0].appl 	generatedWSMs 	0
+scalar GridScenario.node[0].appl 	receivedWSMs 	0
+scalar GridScenario.node[0].appl 	generatedBSMs 	0
+scalar GridScenario.node[0].appl 	receivedBSMs 	0
+scalar GridScenario.node[0].appl 	generatedWSAs 	0
+scalar GridScenario.node[0].appl 	receivedWSAs 	0
+scalar GridScenario.node[0].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[0].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[0].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[0].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[0].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[0].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[0].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[0].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[0].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[0].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[0].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[0].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[0].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[0].nic.mac1609_4 	totalBusyTime 	0
+scalar GridScenario.node[0].veinsmobility 	startTime 	1
+scalar GridScenario.node[0].veinsmobility 	totalTime 	24
+scalar GridScenario.node[0].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[0].veinsmobility 	minSpeed 	3.4620530226647
+scalar GridScenario.node[0].veinsmobility 	maxSpeed 	13.899027116135
+scalar GridScenario.node[0].veinsmobility 	totalDistance 	254.51865459435
+scalar GridScenario.node[0].veinsmobility 	totalCO2Emission 	75.953140084719
+scalar GridScenario.node[1].appl 	generatedWSMs 	0
+scalar GridScenario.node[1].appl 	receivedWSMs 	0
+scalar GridScenario.node[1].appl 	generatedBSMs 	0
+scalar GridScenario.node[1].appl 	receivedBSMs 	0
+scalar GridScenario.node[1].appl 	generatedWSAs 	0
+scalar GridScenario.node[1].appl 	receivedWSAs 	0
+scalar GridScenario.node[1].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[1].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[1].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[1].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[1].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[1].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[1].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[1].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[1].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[1].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[1].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[1].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[1].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[1].nic.mac1609_4 	totalBusyTime 	0
+scalar GridScenario.node[1].veinsmobility 	startTime 	3
+scalar GridScenario.node[1].veinsmobility 	totalTime 	22
+scalar GridScenario.node[1].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[1].veinsmobility 	minSpeed 	3.466348497403
+scalar GridScenario.node[1].veinsmobility 	maxSpeed 	13.899092270576
+scalar GridScenario.node[1].veinsmobility 	totalDistance 	226.87928308259
+scalar GridScenario.node[1].veinsmobility 	totalCO2Emission 	71.990919659279
+scalar GridScenario.node[10].appl 	generatedWSMs 	0
+scalar GridScenario.node[10].appl 	receivedWSMs 	1
+scalar GridScenario.node[10].appl 	generatedBSMs 	0
+scalar GridScenario.node[10].appl 	receivedBSMs 	0
+scalar GridScenario.node[10].appl 	generatedWSAs 	0
+scalar GridScenario.node[10].appl 	receivedWSAs 	0
+scalar GridScenario.node[10].nic.phy80211p 	busyTime 	5.7780314160504e-005
+scalar GridScenario.node[10].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[10].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[10].nic.mac1609_4 	ReceivedBroadcasts 	1
+scalar GridScenario.node[10].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[10].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[10].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[10].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[10].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[10].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[10].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[10].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[10].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[10].nic.mac1609_4 	totalBusyTime 	0.000232
+scalar GridScenario.node[10].veinsmobility 	startTime 	21
+scalar GridScenario.node[10].veinsmobility 	totalTime 	4
+scalar GridScenario.node[10].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[10].veinsmobility 	minSpeed 	4.2273491226141
+scalar GridScenario.node[10].veinsmobility 	maxSpeed 	10.127022120634
+scalar GridScenario.node[10].veinsmobility 	totalDistance 	24.867674580682
+scalar GridScenario.node[10].veinsmobility 	totalCO2Emission 	16.285406145636
+scalar GridScenario.node[11].appl 	generatedWSMs 	1
+scalar GridScenario.node[11].appl 	receivedWSMs 	0
+scalar GridScenario.node[11].appl 	generatedBSMs 	0
+scalar GridScenario.node[11].appl 	receivedBSMs 	0
+scalar GridScenario.node[11].appl 	generatedWSAs 	0
+scalar GridScenario.node[11].appl 	receivedWSAs 	0
+scalar GridScenario.node[11].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[11].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[11].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[11].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[11].nic.mac1609_4 	SentPackets 	1
+scalar GridScenario.node[11].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[11].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[11].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[11].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[11].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[11].nic.mac1609_4 	TimesIntoBackoff 	1
+scalar GridScenario.node[11].nic.mac1609_4 	SlotsBackoff 	1
+scalar GridScenario.node[11].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[11].nic.mac1609_4 	totalBusyTime 	0.000233
+scalar GridScenario.node[11].veinsmobility 	startTime 	23
+scalar GridScenario.node[11].veinsmobility 	totalTime 	2
+scalar GridScenario.node[11].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[11].veinsmobility 	minSpeed 	4.18861535411
+scalar GridScenario.node[11].veinsmobility 	maxSpeed 	6.1760874375144
+scalar GridScenario.node[11].veinsmobility 	totalDistance 	9.4092115666097
+scalar GridScenario.node[11].veinsmobility 	totalCO2Emission 	4.3879242986327
+scalar GridScenario.node[12].appl 	generatedWSMs 	0
+scalar GridScenario.node[12].appl 	receivedWSMs 	0
+scalar GridScenario.node[12].appl 	generatedBSMs 	0
+scalar GridScenario.node[12].appl 	receivedBSMs 	0
+scalar GridScenario.node[12].appl 	generatedWSAs 	0
+scalar GridScenario.node[12].appl 	receivedWSAs 	0
+scalar GridScenario.node[12].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[12].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[12].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[12].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[12].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[12].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[12].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[12].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[12].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[12].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[12].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[12].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[12].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[12].nic.mac1609_4 	totalBusyTime 	0
+scalar GridScenario.node[12].veinsmobility 	startTime 	25
+scalar GridScenario.node[12].veinsmobility 	totalTime 	0
+scalar GridScenario.node[12].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[12].veinsmobility 	totalDistance 	0
+scalar GridScenario.node[12].veinsmobility 	totalCO2Emission 	0
+scalar GridScenario.node[2].appl 	generatedWSMs 	0
+scalar GridScenario.node[2].appl 	receivedWSMs 	1
+scalar GridScenario.node[2].appl 	generatedBSMs 	0
+scalar GridScenario.node[2].appl 	receivedBSMs 	0
+scalar GridScenario.node[2].appl 	generatedWSAs 	0
+scalar GridScenario.node[2].appl 	receivedWSAs 	0
+scalar GridScenario.node[2].nic.phy80211p 	busyTime 	1.1591185858253e-005
+scalar GridScenario.node[2].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[2].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[2].nic.mac1609_4 	ReceivedBroadcasts 	1
+scalar GridScenario.node[2].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[2].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[2].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[2].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[2].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[2].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[2].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[2].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[2].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[2].nic.mac1609_4 	totalBusyTime 	0.000232
+scalar GridScenario.node[2].veinsmobility 	startTime 	5
+scalar GridScenario.node[2].veinsmobility 	totalTime 	20
+scalar GridScenario.node[2].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[2].veinsmobility 	minSpeed 	4.2795812962573
+scalar GridScenario.node[2].veinsmobility 	maxSpeed 	13.899713766212
+scalar GridScenario.node[2].veinsmobility 	totalDistance 	234.7001467957
+scalar GridScenario.node[2].veinsmobility 	totalCO2Emission 	57.078025175274
+scalar GridScenario.node[4].appl 	generatedWSMs 	1
+scalar GridScenario.node[4].appl 	receivedWSMs 	1
+scalar GridScenario.node[4].appl 	generatedBSMs 	0
+scalar GridScenario.node[4].appl 	receivedBSMs 	0
+scalar GridScenario.node[4].appl 	generatedWSAs 	0
+scalar GridScenario.node[4].appl 	receivedWSAs 	0
+scalar GridScenario.node[4].nic.phy80211p 	busyTime 	1.448623051917e-005
+scalar GridScenario.node[4].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[4].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[4].nic.mac1609_4 	ReceivedBroadcasts 	1
+scalar GridScenario.node[4].nic.mac1609_4 	SentPackets 	1
+scalar GridScenario.node[4].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[4].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[4].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[4].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[4].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[4].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[4].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[4].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[4].nic.mac1609_4 	totalBusyTime 	0.000232
+scalar GridScenario.node[4].veinsmobility 	startTime 	9
+scalar GridScenario.node[4].veinsmobility 	totalTime 	16
+scalar GridScenario.node[4].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[4].veinsmobility 	minSpeed 	4.2439555272103
+scalar GridScenario.node[4].veinsmobility 	maxSpeed 	13.899928672982
+scalar GridScenario.node[4].veinsmobility 	totalDistance 	188.90380404061
+scalar GridScenario.node[4].veinsmobility 	totalCO2Emission 	52.10177321696
+scalar GridScenario.node[5].appl 	generatedWSMs 	0
+scalar GridScenario.node[5].appl 	receivedWSMs 	1
+scalar GridScenario.node[5].appl 	generatedBSMs 	0
+scalar GridScenario.node[5].appl 	receivedBSMs 	0
+scalar GridScenario.node[5].appl 	generatedWSAs 	0
+scalar GridScenario.node[5].appl 	receivedWSAs 	0
+scalar GridScenario.node[5].nic.phy80211p 	busyTime 	1.6553446382868e-005
+scalar GridScenario.node[5].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[5].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[5].nic.mac1609_4 	ReceivedBroadcasts 	1
+scalar GridScenario.node[5].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[5].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[5].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[5].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[5].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[5].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[5].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[5].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[5].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[5].nic.mac1609_4 	totalBusyTime 	0.000232
+scalar GridScenario.node[5].veinsmobility 	startTime 	11
+scalar GridScenario.node[5].veinsmobility 	totalTime 	14
+scalar GridScenario.node[5].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[5].veinsmobility 	minSpeed 	4.2347352884722
+scalar GridScenario.node[5].veinsmobility 	maxSpeed 	13.898041692348
+scalar GridScenario.node[5].veinsmobility 	totalDistance 	160.03643875724
+scalar GridScenario.node[5].veinsmobility 	totalCO2Emission 	48.114372972379
+scalar GridScenario.node[6].appl 	generatedWSMs 	0
+scalar GridScenario.node[6].appl 	receivedWSMs 	0
+scalar GridScenario.node[6].appl 	generatedBSMs 	0
+scalar GridScenario.node[6].appl 	receivedBSMs 	0
+scalar GridScenario.node[6].appl 	generatedWSAs 	0
+scalar GridScenario.node[6].appl 	receivedWSAs 	0
+scalar GridScenario.node[6].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[6].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[6].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[6].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[6].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[6].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[6].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[6].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[6].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[6].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[6].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[6].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[6].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[6].nic.mac1609_4 	totalBusyTime 	0
+scalar GridScenario.node[6].veinsmobility 	startTime 	13
+scalar GridScenario.node[6].veinsmobility 	totalTime 	12
+scalar GridScenario.node[6].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[6].veinsmobility 	minSpeed 	4.2440614837695
+scalar GridScenario.node[6].veinsmobility 	maxSpeed 	13.899417699941
+scalar GridScenario.node[6].veinsmobility 	totalDistance 	132.27118423376
+scalar GridScenario.node[6].veinsmobility 	totalCO2Emission 	44.059273365086
+scalar GridScenario.node[7].appl 	generatedWSMs 	0
+scalar GridScenario.node[7].appl 	receivedWSMs 	0
+scalar GridScenario.node[7].appl 	generatedBSMs 	0
+scalar GridScenario.node[7].appl 	receivedBSMs 	0
+scalar GridScenario.node[7].appl 	generatedWSAs 	0
+scalar GridScenario.node[7].appl 	receivedWSAs 	0
+scalar GridScenario.node[7].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[7].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[7].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[7].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[7].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[7].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[7].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[7].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[7].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[7].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[7].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[7].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[7].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[7].nic.mac1609_4 	totalBusyTime 	0
+scalar GridScenario.node[7].veinsmobility 	startTime 	15
+scalar GridScenario.node[7].veinsmobility 	totalTime 	10
+scalar GridScenario.node[7].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[7].veinsmobility 	minSpeed 	3.4753065453356
+scalar GridScenario.node[7].veinsmobility 	maxSpeed 	10.118944907509
+scalar GridScenario.node[7].veinsmobility 	totalDistance 	65.437304579498
+scalar GridScenario.node[7].veinsmobility 	totalCO2Emission 	34.878833699667
+scalar GridScenario.node[8].appl 	generatedWSMs 	0
+scalar GridScenario.node[8].appl 	receivedWSMs 	0
+scalar GridScenario.node[8].appl 	generatedBSMs 	0
+scalar GridScenario.node[8].appl 	receivedBSMs 	0
+scalar GridScenario.node[8].appl 	generatedWSAs 	0
+scalar GridScenario.node[8].appl 	receivedWSAs 	0
+scalar GridScenario.node[8].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[8].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[8].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[8].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[8].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[8].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[8].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[8].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[8].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[8].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[8].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[8].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[8].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[8].nic.mac1609_4 	totalBusyTime 	0
+scalar GridScenario.node[8].veinsmobility 	startTime 	17
+scalar GridScenario.node[8].veinsmobility 	totalTime 	8
+scalar GridScenario.node[8].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[8].veinsmobility 	minSpeed 	4.9675935122243
+scalar GridScenario.node[8].veinsmobility 	maxSpeed 	12.585780443187
+scalar GridScenario.node[8].veinsmobility 	totalDistance 	72.178624498483
+scalar GridScenario.node[8].veinsmobility 	totalCO2Emission 	27.484928936208
+scalar GridScenario.node[9].appl 	generatedWSMs 	0
+scalar GridScenario.node[9].appl 	receivedWSMs 	0
+scalar GridScenario.node[9].appl 	generatedBSMs 	0
+scalar GridScenario.node[9].appl 	receivedBSMs 	0
+scalar GridScenario.node[9].appl 	generatedWSAs 	0
+scalar GridScenario.node[9].appl 	receivedWSAs 	0
+scalar GridScenario.node[9].nic.phy80211p 	busyTime 	0
+scalar GridScenario.node[9].nic.phy80211p 	ncollisions 	0
+scalar GridScenario.node[9].nic.mac1609_4 	ReceivedUnicastPackets 	0
+scalar GridScenario.node[9].nic.mac1609_4 	ReceivedBroadcasts 	0
+scalar GridScenario.node[9].nic.mac1609_4 	SentPackets 	0
+scalar GridScenario.node[9].nic.mac1609_4 	SNIRLostPackets 	0
+scalar GridScenario.node[9].nic.mac1609_4 	RXTXLostPackets 	0
+scalar GridScenario.node[9].nic.mac1609_4 	TotalLostPackets 	0
+scalar GridScenario.node[9].nic.mac1609_4 	DroppedPacketsInMac 	0
+scalar GridScenario.node[9].nic.mac1609_4 	TooLittleTime 	0
+scalar GridScenario.node[9].nic.mac1609_4 	TimesIntoBackoff 	0
+scalar GridScenario.node[9].nic.mac1609_4 	SlotsBackoff 	0
+scalar GridScenario.node[9].nic.mac1609_4 	NumInternalContention 	0
+scalar GridScenario.node[9].nic.mac1609_4 	totalBusyTime 	0
+scalar GridScenario.node[9].veinsmobility 	startTime 	19
+scalar GridScenario.node[9].veinsmobility 	totalTime 	6
+scalar GridScenario.node[9].veinsmobility 	stopTime 	25.015208352027
+scalar GridScenario.node[9].veinsmobility 	minSpeed 	4.2698317309712
+scalar GridScenario.node[9].veinsmobility 	maxSpeed 	13.88884482842
+scalar GridScenario.node[9].veinsmobility 	totalDistance 	50.459694763927
+scalar GridScenario.node[9].veinsmobility 	totalCO2Emission 	31.840652990216
