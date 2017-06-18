@@ -164,9 +164,10 @@ inline std::ostream& operator<<(std::ostream& out, const std::vector<T,A>& vec)
 EXECUTE_ON_STARTUP(
     omnetpp::cEnum *e = omnetpp::cEnum::find("PayloadType");
     if (!e) omnetpp::enums.getInstance()->add(e = new omnetpp::cEnum("PayloadType"));
-    e->insert(STANDARD, "STANDARD");
+    e->insert(TRAFFIC_UPDATE, "TRAFFIC_UPDATE");
     e->insert(VIRUS, "VIRUS");
     e->insert(PATCH, "PATCH");
+    e->insert(REGEN_PATCH, "REGEN_PATCH");
 );
 
 Register_Class(V2VMessage);

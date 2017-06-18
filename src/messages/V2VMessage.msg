@@ -6,9 +6,10 @@ class noncobject Coord;
 
 enum PayloadType
 {
-   STANDARD = 0;
+   TRAFFIC_UPDATE = 0;
    VIRUS = 1;
    PATCH = 2;
+   REGEN_PATCH = 3;
 };
 
 packet V2VMessage extends WaveShortMessage {

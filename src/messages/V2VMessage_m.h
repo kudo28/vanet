@@ -25,20 +25,22 @@
  * enum PayloadType
  * {
  * 
- *     STANDARD = 0;
+ *     TRAFFIC_UPDATE = 0;
  *     VIRUS = 1;
  *     PATCH = 2;
+ *     REGEN_PATCH = 3;
  * }
  * </pre>
  */
 enum PayloadType {
-    STANDARD = 0,
+    TRAFFIC_UPDATE = 0,
     VIRUS = 1,
-    PATCH = 2
+    PATCH = 2,
+    REGEN_PATCH = 3
 };
 
 /**
- * Class generated from <tt>messages/V2VMessage.msg:14</tt> by nedtool.
+ * Class generated from <tt>messages/V2VMessage.msg:15</tt> by nedtool.
  * <pre>
  * packet V2VMessage extends WaveShortMessage
  * {

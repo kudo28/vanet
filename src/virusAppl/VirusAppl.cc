@@ -33,38 +33,42 @@ void VirusAppl::initialize(int stage) {
         vvm->setSenderAddress(myId);
         vvm->setSerial(3);
 
-/*      int seed = 1;
-        srand(seed);
         float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 
-        if (simTime() > 20 && simTime() < 30) {
-            patcher = true;
-            vvm->setWsmData("cure");
-            findHost()->getDisplayString().updateWith("r=30,green");
-        }
-        else if (simTime() > 30 && simTime() < 40) {
-            infected = true;
-            vvm->setWsmData("virus");
-            findHost()->getDisplayString().updateWith("r=30,red");
-        }
-        else {
-            infected = false;
-            findHost()->getDisplayString().updateWith("r=30,green");
-        }*/
+        bool shouldInfect = simTime() > (double) par("infectStart") &&
+                            simTime() < (double) par("infectStop") &&
+                            r         < (double) par("infectRate");
 
-        if (simTime() > par("infectStart") && simTime() < par("infectStop")) {
+        bool shouldPatch = simTime() > (double) par("patchStart") &&
+                           simTime() < (double) par("patchStop") &&
+                           r         < (double) par("patchRate") &&
+                           par("patchingOn");
+
+        if (shouldInfect) {
             infected = true;
             patcher = false;
-            vvm->setWsmData("virus");
+            vvm->setPayloadType(VIRUS);
             findHost()->getDisplayString().updateWith("r=30,red");
+        }
+        else if (shouldPatch) {
+            infected = false;
+            patcher = true;
+            findHost()->getDisplayString().updateWith("r=30,green");
+            if (par("regenPatchingOn")) {
+                vvm->setPayloadType(REGEN_PATCH);
+            }
+            else {
+                vvm->setPayloadType(PATCH);
+            }
         }
         else {
             infected = false;
-            patcher = true;
-            vvm->setWsmData("cure");
+            patcher = false;
+            vvm->setPayloadType(TRAFFIC_UPDATE);
             findHost()->getDisplayString().updateWith("r=30,green");
         }
 
+        // Send self-message to trigger the messaging process
         scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
     }
 }
@@ -74,11 +78,13 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(wsm)) {
         Coord::Coord myPosition = mobility->getCurrentPosition();
         double distance = myPosition.distance(vvm->getSenderPosition());
+        int typeToSend;
 
         if (distance < (double)par("commRadius")) {
 
             switch(vvm->getPayloadType()) {
             case(VIRUS) :
+
                 infected = true;
                 findHost()->getDisplayString().updateWith("r=30,red");
                 break;
@@ -86,12 +92,15 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 infected = false;
                 findHost()->getDisplayString().updateWith("r=30,green");
                 break;
-            case(STANDARD) :
+            case(REGEN_PATCH) :
+                infected = false;
+                findHost()->getDisplayString().updateWith("r=30,green");
+                break;
+            case(TRAFFIC_UPDATE) :
                 //TODO: handle regular traffic update
                 break;
             }
 
-            int typeToSend;
             if (patcher) {
                 typeToSend = PATCH;
             }
@@ -99,7 +108,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 typeToSend = VIRUS;
             }
             else {
-                typeToSend = STANDARD;
+                typeToSend = TRAFFIC_UPDATE;
             }
 
             if (!sentMessage) {
@@ -127,7 +136,7 @@ void VirusAppl::handleSelfMsg(cMessage* msg) {
         vvm->setPayloadType(PATCH);
     }
     else {
-        vvm->setPayloadType(STANDARD);
+        vvm->setPayloadType(TRAFFIC_UPDATE);
     }
 
     if (simTime() > 25) {

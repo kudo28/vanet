@@ -24,10 +24,13 @@ simple VirusAppl extends BaseWaveApplLayer
 	parameters:
 		@class(VirusAppl);
 		string appName = default("VirusAppl");
-		int commStart = default(30);
-		int infectStart = default(0);
-		int infectStop = default(3600);
-		double infectProb = default(0.10);
+		double commStart = default(40);
+		double infectStart = default(0);
+		double infectStop = default(30);
+		double infectRate = default(0.10);
+		double patchStart = default(30);
+		double patchStop = default(40);
+		double patchRate = default(0.05);
 		bool patchingOn = default(false);
 		bool regenPatchingOn = default(false);
 		double commRadius @unit(m) = default(100m);
