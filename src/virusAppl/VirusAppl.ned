@@ -16,9 +16,6 @@
 package grid.virusAppl;
 import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
 
-//
-// network description file for your Veins Application. Add parameters here
-//
 simple VirusAppl extends BaseWaveApplLayer
 {
 	parameters:

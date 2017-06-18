@@ -7,14 +7,6 @@
 
 using namespace omnetpp;
 
-/**
- * @brief
- * This is a stub for a typical Veins application layer.
- * Most common functions are overloaded.
- * See MyVeinsApp.cc for hints
- *
- */
-
 class VirusAppl : public BaseWaveApplLayer {
     public:
         virtual void initialize(int stage);
