@@ -155,7 +155,6 @@ void VirusAppl::handleSelfMsg(cMessage* msg) {
         scheduleAt(simTime() + (double) par("commInterval"), vvm->dup());
         delete vvm;
     }
-    printf("numInfected: %d \n", numInfected);
 }
 
 

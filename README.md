@@ -7,7 +7,7 @@ Setting up this Omnet++ project:
 3. Create a Omnet++ project using File->Import...->General->Existing Projects into Workspace->Next->Select root directory->'Name of directory'->Finish.
 4. Right-click on the newly created project in the Project Explorer, click Properties->Project References, and check inet and veins before clicking OK.
 5. Right-click on the project and click Build Project to generate executables.
-6. In mingwenv, CD into the Veins main directory run the command 'sumo-launchd.py -vv'. This establishes a TCP connection between Sumo and Omnet++.
+6. In mingwenv, CD into the Veins main directory and enter the command 'sumo-launchd.py -vv'. This establishes a TCP connection between Sumo and Omnet++.
 7. In the Omnet++ IDE, launch the simulation by right-clicking on the .ini file and clicking Run As->Omnet++ Simulation.
 
 Links:

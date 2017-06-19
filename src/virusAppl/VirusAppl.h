@@ -11,17 +11,18 @@ class VirusAppl : public BaseWaveApplLayer {
     public:
         virtual void initialize(int stage);
         virtual void finish();
-    private:
-        simsignal_t numInfectedSignal;
-        long numInfected;
     protected:
         bool infected;
         bool patcher;
         bool sentMessage;
+        simsignal_t numInfectedSignal;
+        static long numInfected;
     protected:
         virtual void onWSM(WaveShortMessage* wsm);
         virtual void handleSelfMsg(cMessage* msg);
         virtual void handlePositionUpdate(cObject* obj);
-    };
+};
+
+long VirusAppl::numInfected = 0;
 
 #endif
