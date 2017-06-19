@@ -1,4 +1,6 @@
 //
+// Modified by Jacob Hultman, June 2017
+//
 // Copyright (C) 2016 David Eckhoff <david.eckhoff@fau.de>
 //
 // Documentation for these modules is at http://veins.car2x.org/
@@ -17,7 +19,6 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
-// Modified by Jacob Hultman in June 2017
 
 #include "VirusAppl.h"
 #include "V2VMessage_m.h"
@@ -48,7 +49,7 @@ void VirusAppl::initialize(int stage) {
                            r         < (double) par("patchRate")  &&
                            par("patchingOn");
 
-        if (shouldInfect || (myId > 6 && myId < 15)) {
+        if (shouldInfect) {
             infected = true;
             patcher = false;
             findHost()->getDisplayString().updateWith("r=30,red");

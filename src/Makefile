@@ -15,7 +15,7 @@ USERIF_LIBS = $(ALL_ENV_LIBS) # that is, $(TKENV_LIBS) $(QTENV_LIBS) $(CMDENV_LI
 #USERIF_LIBS = $(QTENV_LIBS)
 
 # C++ include paths (with -I)
-INCLUDE_PATH = -I$(VEINS_PROJ)/src -I. -Imessages -ImyAppl -IvirusAppl
+INCLUDE_PATH = -I$(VEINS_PROJ)/src -I. -Imessages -IvirusAppl
 
 # Additional object and library files to link with
 EXTRA_OBJS =
@@ -30,7 +30,7 @@ PROJECTRELATIVE_PATH = src
 O = $(PROJECT_OUTPUT_DIR)/$(CONFIGNAME)/$(PROJECTRELATIVE_PATH)
 
 # Object files for local .cc, .msg and .sm files
-OBJS = $O/myAppl/MyAppl.o $O/virusAppl/VirusAppl.o $O/messages/V2VMessage_m.o
+OBJS = $O/virusAppl/VirusAppl.o $O/messages/V2VMessage_m.o
 
 # Message files
 MSGFILES = \
@@ -123,7 +123,6 @@ clean:
 	$(Q)-rm -f grid grid.exe libgrid.so libgrid.a libgrid.dll libgrid.dylib
 	$(Q)-rm -f ./*_m.cc ./*_m.h ./*_sm.cc ./*_sm.h
 	$(Q)-rm -f messages/*_m.cc messages/*_m.h messages/*_sm.cc messages/*_sm.h
-	$(Q)-rm -f myAppl/*_m.cc myAppl/*_m.h myAppl/*_sm.cc myAppl/*_sm.h
 	$(Q)-rm -f virusAppl/*_m.cc virusAppl/*_m.h virusAppl/*_sm.cc virusAppl/*_sm.h
 
 cleanall: clean
@@ -131,7 +130,7 @@ cleanall: clean
 
 depend:
 	$(qecho) Creating dependencies...
-	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc messages/*.cc myAppl/*.cc virusAppl/*.cc
+	$(Q)$(MAKEDEPEND) $(INCLUDE_PATH) -f Makefile -P\$$O/ -- $(MSG_CC_FILES) $(SM_CC_FILES)  ./*.cc messages/*.cc virusAppl/*.cc
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 $O/messages/V2VMessage_m.o: messages/V2VMessage_m.cc \
@@ -141,44 +140,6 @@ $O/messages/V2VMessage_m.o: messages/V2VMessage_m.cc \
 	$(VEINS_PROJ)/src/veins/base/utils/MiXiMDefs.h \
 	$(VEINS_PROJ)/src/veins/base/utils/miximkerneldefs.h \
 	$(VEINS_PROJ)/src/veins/modules/messages/WaveShortMessage_m.h
-$O/myAppl/MyAppl.o: myAppl/MyAppl.cc \
-	myAppl/MyAppl.h \
-	$(VEINS_PROJ)/src/veins/base/connectionManager/BaseConnectionManager.h \
-	$(VEINS_PROJ)/src/veins/base/connectionManager/ChannelAccess.h \
-	$(VEINS_PROJ)/src/veins/base/connectionManager/NicEntry.h \
-	$(VEINS_PROJ)/src/veins/base/modules/BaseApplLayer.h \
-	$(VEINS_PROJ)/src/veins/base/modules/BaseBattery.h \
-	$(VEINS_PROJ)/src/veins/base/modules/BaseLayer.h \
-	$(VEINS_PROJ)/src/veins/base/modules/BaseMobility.h \
-	$(VEINS_PROJ)/src/veins/base/modules/BaseModule.h \
-	$(VEINS_PROJ)/src/veins/base/modules/BaseWorldUtility.h \
-	$(VEINS_PROJ)/src/veins/base/modules/BatteryAccess.h \
-	$(VEINS_PROJ)/src/veins/base/utils/Coord.h \
-	$(VEINS_PROJ)/src/veins/base/utils/FWMath.h \
-	$(VEINS_PROJ)/src/veins/base/utils/FindModule.h \
-	$(VEINS_PROJ)/src/veins/base/utils/HostState.h \
-	$(VEINS_PROJ)/src/veins/base/utils/MiXiMDefs.h \
-	$(VEINS_PROJ)/src/veins/base/utils/Move.h \
-	$(VEINS_PROJ)/src/veins/base/utils/NetwToMacControlInfo.h \
-	$(VEINS_PROJ)/src/veins/base/utils/PassedMessage.h \
-	$(VEINS_PROJ)/src/veins/base/utils/SimpleAddress.h \
-	$(VEINS_PROJ)/src/veins/base/utils/miximkerneldefs.h \
-	$(VEINS_PROJ)/src/veins/modules/application/ieee80211p/BaseWaveApplLayer.h \
-	$(VEINS_PROJ)/src/veins/modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h \
-	$(VEINS_PROJ)/src/veins/modules/messages/BasicSafetyMessage_m.h \
-	$(VEINS_PROJ)/src/veins/modules/messages/WaveServiceAdvertisement_m.h \
-	$(VEINS_PROJ)/src/veins/modules/messages/WaveShortMessage_m.h \
-	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIBuffer.h \
-	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIColor.h \
-	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCICommandInterface.h \
-	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIConnection.h \
-	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCICoord.h \
-	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIMobility.h \
-	$(VEINS_PROJ)/src/veins/modules/mobility/traci/TraCIScenarioManager.h \
-	$(VEINS_PROJ)/src/veins/modules/obstacle/Obstacle.h \
-	$(VEINS_PROJ)/src/veins/modules/obstacle/ObstacleControl.h \
-	$(VEINS_PROJ)/src/veins/modules/utility/Consts80211p.h \
-	$(VEINS_PROJ)/src/veins/modules/world/annotations/AnnotationManager.h
 $O/virusAppl/VirusAppl.o: virusAppl/VirusAppl.cc \
 	messages/V2VMessage_m.h \
 	virusAppl/VirusAppl.h \
