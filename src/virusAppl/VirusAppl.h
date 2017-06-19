@@ -11,6 +11,9 @@ class VirusAppl : public BaseWaveApplLayer {
     public:
         virtual void initialize(int stage);
         virtual void finish();
+    private:
+        simsignal_t numInfectedSignal;
+        long numInfected;
     protected:
         bool infected;
         bool patcher;

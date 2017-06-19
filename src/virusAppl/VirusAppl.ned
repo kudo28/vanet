@@ -20,16 +20,20 @@ simple VirusAppl extends BaseWaveApplLayer
 {
 	parameters:
 		@class(VirusAppl);
+		@signal[numInfectedSignal](type="long");
+		@statistic[numInfectedSignal](title="numInfected"; source="numInfectedSignal"; record=count, sum, vector);
 		string appName = default("VirusAppl");
 		double commStart = default(40);
-		double infectStart = default(0);
-		double infectStop = default(30);
-		double infectRate = default(0.10);
-		double patchStart = default(30);
+//		double infectStart = default(0);
+		double infectStart = default(20);
+		double infectStop = default(10);
+		double infectRate = default(0.999);
+		//double patchStart = default(30);
+		double patchStart = default(50);
 		double patchStop = default(40);
 		double patchRate = default(0.05);
 		bool patchingOn = default(false);
 		bool regenPatchingOn = default(false);
-		double commRadius @unit(m) = default(100m);
-		double commInterval @unit(s) = default(1s);
+		double commRadius @unit(m) = default(300m);
+		double commInterval @unit(s) = default(0.5s);
 }

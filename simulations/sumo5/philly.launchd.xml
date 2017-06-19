@@ -1,0 +1,6 @@
+<launch>
+  <copy file="philly.net.xml"/>
+  <copy file="philly.rou.xml"/>
+  <copy file="philly.sumocfg" type="config"/>
+  <copy file="philly.gui-settings.xml"/>
+</launch>

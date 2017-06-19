@@ -28,6 +28,9 @@ Define_Module(VirusAppl);
 void VirusAppl::initialize(int stage) {
     BaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
+        numInfectedSignal = registerSignal("numInfectedSignal");
+        emit(numInfectedSignal, numInfected);
+
         sentMessage = false;
         V2VMessage* vvm = new V2VMessage();
         populateWSM(vvm);
@@ -45,11 +48,12 @@ void VirusAppl::initialize(int stage) {
                            r         < (double) par("patchRate")  &&
                            par("patchingOn");
 
-        if (shouldInfect) {
+        if (shouldInfect || (myId > 6 && myId < 15)) {
             infected = true;
             patcher = false;
             findHost()->getDisplayString().updateWith("r=30,red");
             vvm->setPayloadType(VIRUS);
+            numInfected++;
         }
         else if (shouldPatch) {
             infected = false;
@@ -71,30 +75,38 @@ void VirusAppl::initialize(int stage) {
 
         // Send self-message to trigger the messaging process
         scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
+        delete vvm;
     }
 }
 
 
 void VirusAppl::onWSM(WaveShortMessage* wsm) {
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(wsm)) {
-        Coord::Coord myPosition = mobility->getCurrentPosition();
-        double distance = myPosition.distance(vvm->getSenderPosition());
-        PayloadType typeToSend;
+        double distance = curPosition.distance(vvm->getSenderPosition());
 
         if (distance < (double)par("commRadius")) {
 
             switch(vvm->getPayloadType()) {
             case(VIRUS) :
                 if (!patcher) {
+                    if (!infected) {
+                        numInfected++;
+                    }
                     infected = true;
                     findHost()->getDisplayString().updateWith("r=30,red");
                 }
                 break;
             case(PATCH) :
+                if (infected) {
+                    numInfected--;
+                }
                 infected = false;
                 findHost()->getDisplayString().updateWith("r=30,green");
                 break;
             case(REGEN_PATCH) :
+                if (infected) {
+                    numInfected--;
+                }
                 infected = false;
                 patcher = true;
                 findHost()->getDisplayString().updateWith("r=30,green");
@@ -104,6 +116,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 break;
             }
 
+            PayloadType typeToSend;
             if (patcher) {
                 if (par("regenPatchingOn")) {
                     typeToSend = REGEN_PATCH;
@@ -123,9 +136,10 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 sentMessage = true;
                 vvm->setSerial(3);
                 vvm->setSenderAddress(myId);
-                vvm->setSenderPosition(myPosition);
+                vvm->setSenderPosition(curPosition);
                 vvm->setPayloadType(typeToSend);
                 scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
+                delete vvm;
             }
         }
     }
@@ -133,25 +147,27 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
 
 
 void VirusAppl::handleSelfMsg(cMessage* msg) {
-    BaseWaveApplLayer::handleSelfMsg(msg);
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(msg)) {
         populateWSM(vvm);
         if (simTime() > (double) par("commStart")) {
             sendDown(vvm->dup());
         }
         scheduleAt(simTime() + (double) par("commInterval"), vvm->dup());
+        delete vvm;
     }
+    printf("numInfected: %d \n", numInfected);
 }
+
 
 void VirusAppl::handlePositionUpdate(cObject* obj) {
     BaseWaveApplLayer::handlePositionUpdate(obj);
     //the vehicle has moved. Code that reacts to new positions goes here.
     //member variables such as currentPosition and currentSpeed are updated in the parent class
-
 }
+
 
 void VirusAppl::finish() {
     BaseWaveApplLayer::finish();
     //statistics recording goes here
-
+    //recordVector(something)
 }
