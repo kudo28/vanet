@@ -32,6 +32,9 @@ void VirusAppl::initialize(int stage) {
         numInfectedSignal = registerSignal("numInfectedSignal");
         emit(numInfectedSignal, numInfected);
 
+        fracInfectedSignal = registerSignal("fracInfectedSignal");
+        emit(fracInfectedSignal, fracInfected);
+
         sentMessage = false;
         V2VMessage* vvm = new V2VMessage();
         populateWSM(vvm);
@@ -77,6 +80,8 @@ void VirusAppl::initialize(int stage) {
         // Send self-message to trigger the messaging process
         scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
         delete vvm;
+        numVehicles = mobility->getManager()->getManagedHosts().size();
+        fracInfected = (double) numInfected / (double) numVehicles;
     }
 }
 
@@ -142,6 +147,11 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
                 delete vvm;
             }
+
+            numVehicles = mobility->getManager()->getManagedHosts().size();
+            fracInfected = (double) numInfected / (double) numVehicles;
+            emit(numInfectedSignal, numInfected);
+            emit(fracInfectedSignal, fracInfected);
         }
     }
 }

@@ -11,12 +11,18 @@ class VirusAppl : public BaseWaveApplLayer {
     public:
         virtual void initialize(int stage);
         virtual void finish();
-    protected:
+    private:
         bool infected;
         bool patcher;
         bool sentMessage;
+
         simsignal_t numInfectedSignal;
         static long numInfected;
+
+        simsignal_t fracInfectedSignal;
+        static double fracInfected;
+    protected:
+        int numVehicles;
     protected:
         virtual void onWSM(WaveShortMessage* wsm);
         virtual void handleSelfMsg(cMessage* msg);
@@ -24,5 +30,6 @@ class VirusAppl : public BaseWaveApplLayer {
 };
 
 long VirusAppl::numInfected = 0;
+double VirusAppl::fracInfected = 0;
 
 #endif

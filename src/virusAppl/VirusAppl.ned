@@ -20,9 +20,14 @@ simple VirusAppl extends BaseWaveApplLayer
 {
 	parameters:
 		@class(VirusAppl);
-		@signal[numInfectedSignal](type="long");
-		@statistic[numInfectedSignal](title="numInfected"; source="numInfectedSignal"; record=count, sum, vector);
 		string appName = default("VirusAppl");
+		
+		@signal[numInfectedSignal](type="long");
+		@statistic[numInfected](title="numInfected"; source="numInfectedSignal"; record=count, sum, vector);
+		
+		@signal[fracInfectedSignal](type="double");
+		@statistic[fracInfected](title="fracInfected"; source="fracInfectedSignal"; record=vector);
+		
 		double commStart = default(40);
 		double infectStart = default(0);
 		double infectStop = default(10);
