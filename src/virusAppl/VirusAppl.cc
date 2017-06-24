@@ -29,6 +29,8 @@ Define_Module(VirusAppl);
 void VirusAppl::initialize(int stage) {
     BaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
+        traci = TraCIMobilityAccess().get(getParentModule());
+
         numInfectedSignal = registerSignal("numInfectedSignal");
         emit(numInfectedSignal, numInfected);
 
@@ -80,7 +82,7 @@ void VirusAppl::initialize(int stage) {
         // Send self-message to trigger the messaging process
         scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
         delete vvm;
-        numVehicles = mobility->getManager()->getManagedHosts().size();
+        int numVehicles = mobility->getManager()->getManagedHosts().size();
         fracInfected = (double) numInfected / (double) numVehicles;
     }
 }
@@ -148,7 +150,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 delete vvm;
             }
 
-            numVehicles = mobility->getManager()->getManagedHosts().size();
+            int numVehicles = mobility->getManager()->getManagedHosts().size();
             fracInfected = (double) numInfected / (double) numVehicles;
             emit(numInfectedSignal, numInfected);
             emit(fracInfectedSignal, fracInfected);
@@ -178,6 +180,10 @@ void VirusAppl::handlePositionUpdate(cObject* obj) {
 
 void VirusAppl::finish() {
     BaseWaveApplLayer::finish();
-    //statistics recording goes here
-    //recordVector(something)
+    if(infected) {
+        numInfected--;
+    }
+    int numVehicles = mobility->getManager()->getManagedHosts().size();
+    numVehicles--;
+    fracInfected = (double) numInfected / (double) numVehicles;
 }
