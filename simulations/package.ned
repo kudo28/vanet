@@ -1,3 +1,3 @@
-package grid.simulations;
+package vanet.simulations;
 
 @license(LGPL);

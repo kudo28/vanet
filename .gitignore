@@ -14,5 +14,5 @@ simulations/.tkenvrc
 simulations/debug
 simulations/run
 
-src/grid.exe
+src/vanet.exe
 src/Makefile

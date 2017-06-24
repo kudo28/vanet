@@ -1,3 +1,3 @@
-package grid;
+package vanet;
 
 @license(LGPL);

@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package grid.virusAppl;
+package vanet.virusAppl;
 import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
 
 simple VirusAppl extends BaseWaveApplLayer
@@ -38,5 +38,5 @@ simple VirusAppl extends BaseWaveApplLayer
 		bool patchingOn = default(false);
 		bool regenPatchingOn = default(false);
 		double commRadius @unit(m) = default(300m);
-		double commInterval @unit(s) = default(3s);
+		double commInterval @unit(s) = default(0.1s);
 }
