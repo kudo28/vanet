@@ -32,10 +32,11 @@ void VirusAppl::initialize(int stage) {
         traci = TraCIMobilityAccess().get(getParentModule());
 
         numInfectedSignal = registerSignal("numInfectedSignal");
-        emit(numInfectedSignal, numInfected);
-
         fracInfectedSignal = registerSignal("fracInfectedSignal");
+        ifInfectedSignal = registerSignal("ifInfectedSignal");
+        emit(numInfectedSignal, numInfected);
         emit(fracInfectedSignal, fracInfected);
+        emit(ifInfectedSignal, ifInfected);
 
         sentMessage = false;
         V2VMessage* vvm = new V2VMessage();
@@ -52,7 +53,7 @@ void VirusAppl::initialize(int stage) {
         bool shouldPatch = simTime() > (double) par("patchStart") &&
                            simTime() < (double) par("patchStop")  &&
                            r         < (double) par("patchRate")  &&
-                           par("patchingOn");
+                           (par("patchingOn") || par("regenPatchingOn"));
 
         if (shouldInfect) {
             infected = true;
@@ -60,6 +61,7 @@ void VirusAppl::initialize(int stage) {
             findHost()->getDisplayString().updateWith("r=30,red");
             vvm->setPayloadType(VIRUS);
             numInfected++;
+            ifInfected = 1;
         }
         else if (shouldPatch) {
             infected = false;
@@ -100,6 +102,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                     if (!infected) {
                         numInfected++;
                     }
+                    ifInfected = 1;
                     infected = true;
                     findHost()->getDisplayString().updateWith("r=30,red");
                 }
@@ -109,6 +112,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                     numInfected--;
                 }
                 infected = false;
+                ifInfected = 0;
                 findHost()->getDisplayString().updateWith("r=30,green");
                 break;
             case(REGEN_PATCH) :
@@ -116,6 +120,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                     numInfected--;
                 }
                 infected = false;
+                ifInfected = 0;
                 patcher = true;
                 findHost()->getDisplayString().updateWith("r=30,green");
                 break;
@@ -154,6 +159,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
             fracInfected = (double) numInfected / (double) numVehicles;
             emit(numInfectedSignal, numInfected);
             emit(fracInfectedSignal, fracInfected);
+            emit(ifInfectedSignal, ifInfected);
         }
     }
 }
@@ -185,5 +191,6 @@ void VirusAppl::finish() {
     }
     int numVehicles = mobility->getManager()->getManagedHosts().size();
     numVehicles--;
+    ifInfected = 0;
     fracInfected = (double) numInfected / (double) numVehicles;
 }

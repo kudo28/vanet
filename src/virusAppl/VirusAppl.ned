@@ -1,3 +1,4 @@
+// Modified by Jacob Hultman, June 2017
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as published by
@@ -23,20 +24,23 @@ simple VirusAppl extends BaseWaveApplLayer
 		string appName = default("VirusAppl");
 		
 		@signal[numInfectedSignal](type="long");
-		@statistic[numInfected](title="numInfected"; source="numInfectedSignal"; record=count, sum, vector);
+		@statistic[numInfected](title="numInfected"; source="numInfectedSignal"; record=vector);
 		
 		@signal[fracInfectedSignal](type="double");
 		@statistic[fracInfected](title="fracInfected"; source="fracInfectedSignal"; record=vector);
 		
+		@signal[ifInfectedSignal](type="int");
+		@statistic[ifInfected](title="ifInfected"; source="ifInfectedSignal"; record=vector);
+		
 		double commStart = default(40);
 		double infectStart = default(0);
-		double infectStop = default(10);
+		double infectStop = default(20);
 		double infectRate = default(0.35);
-		double patchStart = default(30);
+		double patchStart = default(20);
 		double patchStop = default(40);
-		double patchRate = default(0.05);
+		double patchRate = default(0.25);
 		bool patchingOn = default(false);
 		bool regenPatchingOn = default(false);
 		double commRadius @unit(m) = default(300m);
-		double commInterval @unit(s) = default(0.1s);
+		double commInterval @unit(s) = default(0.5s);
 }
