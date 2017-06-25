@@ -21,6 +21,7 @@
 
 package vanet.simulations;
 
+import vanet.statistics.StatisticsCollector;
 import org.car2x.veins.base.connectionManager.ConnectionManager;
 import org.car2x.veins.base.modules.BaseWorldUtility;
 import org.car2x.veins.modules.mobility.traci.TraCIScenarioManagerLaunchd;
@@ -37,7 +38,6 @@ network MyScenario
         //  Uncomment to add background image stretched to playground size
 		//	@display("bgl=4;bgi=background/grid22,s");
 		//  @display("bgl=4");
-		@statistic[fracInfectedXX](source=sum(ifInfectedSignal); record=vector);
 		
     submodules:
         obstacles: ObstacleControl {
@@ -61,6 +61,7 @@ network MyScenario
             parameters:
                 @display("p=3200,1700");
         }
+        statisticsCollector: StatisticsCollector {}
         
     connections allowunconnected:
 }

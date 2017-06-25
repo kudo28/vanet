@@ -29,7 +29,7 @@ simple VirusAppl extends BaseWaveApplLayer
 		@signal[fracInfectedSignal](type="double");
 		@statistic[fracInfected](title="fracInfected"; source="fracInfectedSignal"; record=vector);
 		
-		@signal[ifInfectedSignal](type="int");
+		@signal[ifInfectedSignal](type="long");
 		@statistic[ifInfected](title="ifInfected"; source="ifInfectedSignal"; record=vector);
 		
 		double commStart = default(40);

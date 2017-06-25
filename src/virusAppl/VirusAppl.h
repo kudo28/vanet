@@ -17,10 +17,8 @@ class VirusAppl : public BaseWaveApplLayer {
         bool sentMessage;
         simsignal_t numInfectedSignal;
         simsignal_t fracInfectedSignal;
-        simsignal_t ifInfectedSignal;
         static long numInfected;
         static double fracInfected;
-        int ifInfected;
     protected:
         TraCIMobility* traci;
     protected:

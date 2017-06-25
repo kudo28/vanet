@@ -14,4 +14,15 @@
 // 
 
 package vanet.statistics;
-simple Statistics {}
+simple StatisticsCollector
+{
+	parameters:
+   		@class(StatisticsCollector);
+		string appName = default("StatisticsCollector");
+
+	    @signal[numInfectedSignal](type="long");
+		@statistic[numInfected](title="numInfected"; source="numInfectedSignal"; record=vector);
+
+		@signal[numVehiclesSignal](type="long");
+		@statistic[numVehicles](title="numVehicles"; source="numVehiclesSignal"; record=vector);
+}
