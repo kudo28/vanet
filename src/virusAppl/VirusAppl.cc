@@ -31,9 +31,12 @@ void VirusAppl::initialize(int stage) {
     if (stage == 0) {
         traci = TraCIMobilityAccess().get(getParentModule());
 
-        // Initializing statistics module
-        cModule *modp = this->getParentModule()->getParentModule()->getSubmodule("statisticsCollector");
-        stats = check_and_cast<StatisticsCollector *>(modp);
+        // Initializing pointers
+        cModule *grandParent = this->getParentModule()->getParentModule();
+        cModule *mod = grandParent->getSubmodule("statisticsCollector");
+        stats = check_and_cast<StatisticsCollector *>(mod);
+        traci = TraCIMobilityAccess().get(getParentModule());
+
 
         sentMessage = false;
         V2VMessage* vvm = new V2VMessage();
@@ -53,21 +56,16 @@ void VirusAppl::initialize(int stage) {
                            (par("patchingOn") || par("regenPatchingOn"));
 
         if (shouldInfect) {
-            infected = true;
+            this->infect(vvm);
             patcher = false;
-            findHost()->getDisplayString().updateWith("r=30,red");
-            vvm->setPayloadType(VIRUS);
-            stats->incrNumInfected();
         }
         else if (shouldPatch) {
-            infected = false;
-            patcher = true;
-            findHost()->getDisplayString().updateWith("r=30,green");
+            this->patch(vvm);
             if (par("regenPatchingOn")) {
-                vvm->setPayloadType(REGEN_PATCH);
+                this->regenPatch(vvm);
             }
             else {
-                vvm->setPayloadType(PATCH);
+                this->patch(vvm);
             }
         }
         else {
@@ -95,46 +93,23 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
             case(VIRUS) :
                 if (!patcher) {
                     if (!infected) {
-                        stats->incrNumInfected();
+                        this->infect(vvm);
                     }
-                    infected = true;
-                    findHost()->getDisplayString().updateWith("r=30,red");
                 }
                 break;
             case(PATCH) :
                 if (infected) {
-                    stats->decrNumInfected();
+                    this->patch(vvm);
                 }
-                infected = false;
-                findHost()->getDisplayString().updateWith("r=30,green");
                 break;
             case(REGEN_PATCH) :
                 if (infected) {
-                    stats->decrNumInfected();
+                    this->regenPatch(vvm);
                 }
-                infected = false;
-                patcher = true;
-                findHost()->getDisplayString().updateWith("r=30,green");
                 break;
             case(TRAFFIC_UPDATE) :
                 //TODO: handle regular traffic update
                 break;
-            }
-
-            PayloadType typeToSend;
-            if (patcher) {
-                if (par("regenPatchingOn")) {
-                    typeToSend = REGEN_PATCH;
-                }
-                else {
-                    typeToSend = PATCH;
-                }
-            }
-            else if (infected) {
-                typeToSend = VIRUS;
-            }
-            else {
-                typeToSend = TRAFFIC_UPDATE;
             }
 
             if (!sentMessage) {
@@ -142,7 +117,6 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 vvm->setSerial(3);
                 vvm->setSenderAddress(myId);
                 vvm->setSenderPosition(curPosition);
-                vvm->setPayloadType(typeToSend);
                 scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
                 delete vvm;
             }
@@ -150,6 +124,27 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
     }
 }
 
+void VirusAppl::infect(V2VMessage* vvm) {
+    infected = true;
+    stats->incrNumInfected();
+    findHost()->getDisplayString().updateWith("r=30,red");
+    vvm->setPayloadType(VIRUS);
+}
+
+void VirusAppl::patch(V2VMessage* vvm) {
+    infected = false;
+    stats->decrNumInfected();
+    findHost()->getDisplayString().updateWith("r=30,green");
+    vvm->setPayloadType(PATCH);
+}
+
+void VirusAppl::regenPatch(V2VMessage* vvm) {
+    infected = false;
+    patcher = true;
+    stats->decrNumInfected();
+    findHost()->getDisplayString().updateWith("r=30,green");
+    vvm->setPayloadType(REGEN_PATCH);
+}
 
 void VirusAppl::handleSelfMsg(cMessage* msg) {
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(msg)) {
