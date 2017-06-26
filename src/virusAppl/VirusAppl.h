@@ -4,6 +4,7 @@
 #include <omnetpp.h>
 #include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
 #include "veins/base/utils/Coord.h"
+#include "statistics/StatisticsCollector.h"
 
 using namespace omnetpp;
 
@@ -19,6 +20,7 @@ class VirusAppl : public BaseWaveApplLayer {
         simsignal_t fracInfectedSignal;
         static long numInfected;
         static double fracInfected;
+        StatisticsCollector *stats;
     protected:
         TraCIMobility* traci;
     protected:

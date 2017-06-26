@@ -47,8 +47,7 @@ network MyScenario
             @display("p=3200,500");
         }
         connectionManager: ConnectionManager {
-            parameters:
-                @display("p=3200,900;i=abstract/multicast");
+            @display("p=3200,900;i=abstract/multicast");
         }
         world: BaseWorldUtility {
             parameters:
@@ -58,10 +57,11 @@ network MyScenario
  				@display("p=3200,1300;i=misc/globe");
         }
         manager: TraCIScenarioManagerLaunchd {
-            parameters:
-                @display("p=3200,1700");
+            @display("p=3200,1700");
         }
-        statisticsCollector: StatisticsCollector {}
+        statisticsCollector: StatisticsCollector {
+            @display("p=3200,2100");
+        }
         
     connections allowunconnected:
 }

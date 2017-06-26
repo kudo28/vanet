@@ -31,6 +31,14 @@ void VirusAppl::initialize(int stage) {
     if (stage == 0) {
         traci = TraCIMobilityAccess().get(getParentModule());
 
+        // Initializing statistics module
+//        const char *statsModulePath = par("statsModulePath");
+//        cModule *modp = getModuleByPath(statsModulePath);
+//        stats = check_and_cast<StatisticsCollector *>(modp);
+
+        cModule *modp = this->getParentModule()->getParentModule()->getSubmodule("statisticsCollector");
+        stats = check_and_cast<StatisticsCollector *>(modp);
+
         numInfectedSignal = registerSignal("numInfectedSignal");
         fracInfectedSignal = registerSignal("fracInfectedSignal");
         emit(numInfectedSignal, numInfected);
@@ -181,6 +189,7 @@ void VirusAppl::finish() {
     BaseWaveApplLayer::finish();
     if(infected) {
         numInfected--;
+        stats->decrNumVehicles();
     }
     int numVehicles = mobility->getManager()->getManagedHosts().size();
     numVehicles--;

@@ -15,6 +15,8 @@
 // 
 
 package vanet.virusAppl;
+
+import vanet.statistics.StatisticsCollector;
 import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
 
 simple VirusAppl extends BaseWaveApplLayer
