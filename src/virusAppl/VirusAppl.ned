@@ -17,23 +17,12 @@
 package vanet.virusAppl;
 
 import vanet.statistics.StatisticsCollector;
-import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
+//import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
+import vanet.ieee80211p.BaseWaveApplLayer;
 
 simple VirusAppl extends BaseWaveApplLayer
 {
 	parameters:
 		@class(VirusAppl);
 		string appName = default("VirusAppl");
-		
-		double commStart = default(40);
-		double infectStart = default(0);
-		double infectStop = default(20);
-		double infectRate = default(0.35);
-		double patchStart = default(20);
-		double patchStop = default(40);
-		double patchRate = default(0.25);
-		bool patchingOn = default(false);
-		bool regenPatchingOn = default(false);
-		double commRadius @unit(m) = default(300m);
-		double commInterval @unit(s) = default(0.5s);
 }

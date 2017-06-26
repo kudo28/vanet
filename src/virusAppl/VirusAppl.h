@@ -2,6 +2,7 @@
 #define _VIRUSAPPL_H_
 
 #include <omnetpp.h>
+//#include "ieee80211p/BaseWaveApplLayer.h"
 #include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
 #include "veins/base/utils/Coord.h"
 #include "statistics/StatisticsCollector.h"

@@ -31,6 +31,8 @@ void VirusAppl::initialize(int stage) {
     if (stage == 0) {
         traci = TraCIMobilityAccess().get(getParentModule());
 
+        printf("My ID: %d", myId);
+
         // Initializing pointers
         cModule *grandParent = this->getParentModule()->getParentModule();
         cModule *mod = grandParent->getSubmodule("statisticsCollector");
@@ -60,7 +62,6 @@ void VirusAppl::initialize(int stage) {
             patcher = false;
         }
         else if (shouldPatch) {
-            this->patch(vvm);
             if (par("regenPatchingOn")) {
                 this->regenPatch(vvm);
             }

@@ -27,5 +27,5 @@ simple StatisticsCollector
 		@statistic[numVehicles](title="numVehicles"; source="numVehiclesSignal"; record=vector);
 
 		@signal[fracInfectedSignal](type="double");
-		@statistic[fracInfected](title="fracInfected"; source="fracInfectedSignal"; record=vector);
+		@statistic[fracInfected](title="fracInfected"; source="fracInfectedSignal"; record=vector,mean);
 }
