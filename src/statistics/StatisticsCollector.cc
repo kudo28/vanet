@@ -52,6 +52,14 @@ void StatisticsCollector::updateFracInfected() {
     emit(fracInfectedSignal, fracInfected);
 }
 
+int StatisticsCollector::getNumInfected() {
+    return numInfected;
+}
+
+double StatisticsCollector::getFracInfected() {
+    return fracInfected;
+}
+
 void StatisticsCollector::finish() {
 
 }

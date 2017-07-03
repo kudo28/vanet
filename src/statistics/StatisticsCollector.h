@@ -30,6 +30,8 @@ class StatisticsCollector: public cSimpleModule {
         void decrNumInfected();
         void incrNumVehicles();
         void decrNumVehicles();
+        int getNumInfected();
+        double getFracInfected();
 };
 
 #endif /* STATISTICS_STATISTICSCOLLECTOR_H_ */
