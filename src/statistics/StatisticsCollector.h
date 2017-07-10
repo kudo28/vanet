@@ -21,8 +21,6 @@ class StatisticsCollector: public cSimpleModule {
         int numInfected;
         int numVehicles;
         double fracInfected;
-        simsignal_t numInfectedSignal;
-        simsignal_t numVehiclesSignal;
         simsignal_t fracInfectedSignal;
         void updateFracInfected();
     public:

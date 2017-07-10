@@ -19,13 +19,6 @@ simple StatisticsCollector
 	parameters:
    		@class(StatisticsCollector);
 		string appName = default("StatisticsCollector");
-
-	    @signal[numInfectedSignal](type="long");
-		@statistic[numInfected](title="numInfected"; source="numInfectedSignal"; record=vector);
-
-		@signal[numVehiclesSignal](type="long");
-		@statistic[numVehicles](title="numVehicles"; source="numVehiclesSignal"; record=vector);
-
 		@signal[fracInfectedSignal](type="double");
 		@statistic[fracInfected](title="fracInfected"; source="fracInfectedSignal"; record=vector,mean);
 }

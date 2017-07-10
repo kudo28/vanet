@@ -17,10 +17,9 @@
 package vanet.virusAppl;
 
 import vanet.statistics.StatisticsCollector;
-//import org.car2x.veins.modules.application.ieee80211p.BaseWaveApplLayer;
-import vanet.ieee80211p.BaseWaveApplLayer;
+import vanet.ieee80211p.MyBaseWaveApplLayer;
 
-simple VirusAppl extends BaseWaveApplLayer
+simple VirusAppl extends MyBaseWaveApplLayer
 {
 	parameters:
 		@class(VirusAppl);

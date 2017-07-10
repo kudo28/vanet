@@ -29,17 +29,13 @@ Define_Module(VirusAppl);
 void VirusAppl::initialize(int stage) {
     BaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
-        traci = TraCIMobilityAccess().get(getParentModule());
-
-        printf("My ID: %d", myId);
-
         // Initializing pointers
         cModule *grandParent = this->getParentModule()->getParentModule();
         cModule *mod = grandParent->getSubmodule("statisticsCollector");
         stats = check_and_cast<StatisticsCollector *>(mod);
         traci = TraCIMobilityAccess().get(getParentModule());
 
-
+        // Initializing message
         sentMessage = false;
         V2VMessage* vvm = new V2VMessage();
         populateWSM(vvm);
@@ -87,7 +83,7 @@ void VirusAppl::initialize(int stage) {
 void VirusAppl::onWSM(WaveShortMessage* wsm) {
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(wsm)) {
         double distance = curPosition.distance(vvm->getSenderPosition());
-
+        printf("Distance: %f\n", distance);
         if (distance < (double)par("commRadius")) {
 
             switch(vvm->getPayloadType()) {
