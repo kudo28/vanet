@@ -1,5 +1,5 @@
 # vanet
-You'll need a working installation of Veins [1] in order to run these simulations. This in turn relies on having the traffic simulator Sumo [2] as well as the network simulator OMNeT++ [3] installed (including the INET Framework).
+You'll need a working installation of Veins [1] in order to run these simulations. This in turn relies on having the traffic simulator SUMO [2] as well as the network simulator OMNeT++ [3] installed (including the INET Framework). I found the following versions to be compatible with each other: OMNeT++ 5.0, Veins 4.5, SUMO 0.29.0, and INET 3.4.
 
 To set up this OMNeT++ project:
 1. Open the OMNeT++ main directory and start the mingwenv.cmd terminal window.
