@@ -74,6 +74,7 @@ void VirusAppl::initialize(int stage) {
 
         // Send self-message to trigger the messaging process
         scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
+        this->drop(vvm);
         delete vvm;
         stats->incrNumVehicles();
     }
@@ -83,9 +84,7 @@ void VirusAppl::initialize(int stage) {
 void VirusAppl::onWSM(WaveShortMessage* wsm) {
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(wsm)) {
         double distance = curPosition.distance(vvm->getSenderPosition());
-        printf("Distance: %f\n", distance);
         if (distance < (double)par("commRadius")) {
-
             switch(vvm->getPayloadType()) {
             case(VIRUS) :
                 if (!patcher) {
@@ -113,8 +112,8 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 sentMessage = true;
                 vvm->setSerial(3);
                 vvm->setSenderAddress(myId);
-                vvm->setSenderPosition(curPosition);
                 scheduleAt(simTime() + 2 + uniform(0.01,0.2), vvm->dup());
+                this->drop(vvm);
                 delete vvm;
             }
         }
@@ -150,6 +149,7 @@ void VirusAppl::handleSelfMsg(cMessage* msg) {
             sendDown(vvm->dup());
         }
         scheduleAt(simTime() + (double) par("commInterval"), vvm->dup());
+        this->drop(vvm);
         delete vvm;
     }
 }
