@@ -22,9 +22,9 @@ class VirusAppl : public BaseWaveApplLayer {
         virtual void finish();
 
     private:
-        bool sentMessage;
+        cMessage* timerMessage;
         SIR_STATE state;
-        StatisticsCollector *stats;
+        StatisticsCollector* stats;
 
         void infect();
         void patch();

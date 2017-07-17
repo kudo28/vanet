@@ -29,14 +29,12 @@ Define_Module(VirusAppl);
 void VirusAppl::initialize(int stage) {
     BaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
-        // Initializing pointers
+        // Initializing state variables
         cModule *grandParent = this->getParentModule()->getParentModule();
         cModule *mod = grandParent->getSubmodule("statisticsCollector");
+        timerMessage = new cMessage;
         stats = check_and_cast<StatisticsCollector *>(mod);
         traci = TraCIMobilityAccess().get(getParentModule());
-
-        // Initializing message
-        sentMessage = false;
 
         float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 
@@ -50,10 +48,10 @@ void VirusAppl::initialize(int stage) {
                            (par("patchingOn") || par("regenPatchingOn"));
 
         if (shouldInfect) {
-            infect();
+            this->infect();
         }
         else if (shouldPatch) {
-            patch();
+            this->patch();
         }
         else {
             state = SUSCEPTIBLE;
@@ -61,7 +59,7 @@ void VirusAppl::initialize(int stage) {
         }
 
         // Send self-message to trigger the messaging process
-        scheduleAt(simTime() + uniform(0.01,0.2), new cMessage);
+        scheduleAt(simTime() + uniform(0.01,0.2), timerMessage);
         stats->incrNumVehicles();
     }
 }
@@ -70,10 +68,10 @@ void VirusAppl::initialize(int stage) {
 void VirusAppl::onWSM(WaveShortMessage* wsm) {
     if (V2VMessage* vvm = dynamic_cast<V2VMessage*>(wsm)) {
         double distance = curPosition.distance(vvm->getSenderPosition());
+//        printf("D: %f\n", distance);
         if (distance < (double) par("commRadius")) {
             switch(vvm->getPayloadType()) {
             case(VIRUS) :
-                printf("Virus\n");
                 if (state == SUSCEPTIBLE) {
                     infect();
                 }
@@ -86,15 +84,7 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 break;
             case(TRAFFIC_UPDATE) :
                 //TODO: handle regular traffic update
-                printf("Traffic update\n");
                 break;
-            }
-
-            if (!sentMessage) {
-                sentMessage = true;
-                vvm->setSerial(3);
-                vvm->setSenderAddress(myId);
-                scheduleAt(simTime() + (double) par("commInterval") + uniform(0.01,0.2), vvm->dup());
             }
             drop(vvm);
             delete(vvm);
@@ -104,48 +94,44 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
 
 
 void VirusAppl::infect() {
-    if (state != INFECTED) {
-        stats->incrNumInfected();
-    }
+    stats->incrNumInfected();
     state = INFECTED;
     findHost()->getDisplayString().updateWith("r=30,red");
 }
 
 
 void VirusAppl::patch() {
-    if (state != RECOVERED) {
-        stats->decrNumInfected();
-    }
+    stats->decrNumInfected();
     state = RECOVERED;
     findHost()->getDisplayString().updateWith("r=30,green");
 }
 
 
 void VirusAppl::regenPatch() {
-    state = RECOVERED;
     stats->decrNumInfected();
+    state = RECOVERED;
     findHost()->getDisplayString().updateWith("r=30,green");
     // TODO: Add regenerative patching functionality
 }
 
 
 void VirusAppl::handleSelfMsg(cMessage* msg) {
-//    BaseWaveApplLayer::handleSelfMsg(msg);
-    V2VMessage* vvm = new V2VMessage();
-    populateWSM(vvm);
-    vvm->setSenderPosition(curPosition);
-    if (state == INFECTED) {
-        vvm->setPayloadType(VIRUS);
-    }
-    else {
-        vvm->setPayloadType(TRAFFIC_UPDATE);
-    }
     if (simTime() > (double) par("commStart")) {
+        V2VMessage* vvm = new V2VMessage();
+        populateWSM(vvm);
+        vvm->setSenderPosition(curPosition);
+        if (state == INFECTED) {
+            vvm->setPayloadType(VIRUS);
+        }
+        else {
+            vvm->setPayloadType(TRAFFIC_UPDATE);
+        }
         sendDown(vvm->dup());
+        drop(vvm);
+        delete(vvm);
     }
-    scheduleAt(simTime() + (double) par("commInterval"), new cMessage);
-    drop(vvm);
-    delete(vvm);
+    cancelEvent(timerMessage);
+    scheduleAt(simTime() + (double) par("commInterval"), timerMessage);
 }
 
 
@@ -158,6 +144,7 @@ void VirusAppl::handlePositionUpdate(cObject* obj) {
 
 void VirusAppl::finish() {
     BaseWaveApplLayer::finish();
+    cancelAndDelete(timerMessage);
     if(state == INFECTED) {
         stats->decrNumInfected();
     }
