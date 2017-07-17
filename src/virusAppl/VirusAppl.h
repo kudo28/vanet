@@ -10,20 +10,25 @@
 
 using namespace omnetpp;
 
+enum SIR_STATE {
+    SUSCEPTIBLE = 0,
+    INFECTED = 1,
+    RECOVERED = 2
+};
+
 class VirusAppl : public BaseWaveApplLayer {
     public:
         virtual void initialize(int stage);
         virtual void finish();
 
     private:
-        bool infected;
-        bool patcher;
         bool sentMessage;
+        SIR_STATE state;
         StatisticsCollector *stats;
 
-        void infect(V2VMessage* vvm);
-        void patch(V2VMessage* vvm);
-        void regenPatch(V2VMessage* vvm);
+        void infect();
+        void patch();
+        void regenPatch();
     protected:
         TraCIMobility* traci;
     protected:
@@ -33,4 +38,3 @@ class VirusAppl : public BaseWaveApplLayer {
 };
 
 #endif
-
