@@ -21,10 +21,12 @@
 //#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
 #include "MyBaseWaveApplLayer.h"
 
-const simsignalwrap_t BaseWaveApplLayer::mobilityStateChangedSignal = simsignalwrap_t(MIXIM_SIGNAL_MOBILITY_CHANGE_NAME);
-const simsignalwrap_t BaseWaveApplLayer::parkingStateChangedSignal = simsignalwrap_t(TRACI_SIGNAL_PARKING_CHANGE_NAME);
+const simsignalwrap_t MyBaseWaveApplLayer::mobilityStateChangedSignal = simsignalwrap_t(MIXIM_SIGNAL_MOBILITY_CHANGE_NAME);
+const simsignalwrap_t MyBaseWaveApplLayer::parkingStateChangedSignal = simsignalwrap_t(TRACI_SIGNAL_PARKING_CHANGE_NAME);
 
-void BaseWaveApplLayer::initialize(int stage) {
+Define_Module(MyBaseWaveApplLayer);
+
+void MyBaseWaveApplLayer::initialize(int stage) {
     BaseApplLayer::initialize(stage);
 
     if (stage==0) {
@@ -110,7 +112,7 @@ void BaseWaveApplLayer::initialize(int stage) {
     }
 }
 
-simtime_t BaseWaveApplLayer::computeAsynchronousSendingTime(simtime_t interval, t_channel chan) {
+simtime_t MyBaseWaveApplLayer::computeAsynchronousSendingTime(simtime_t interval, t_channel chan) {
 
     /*
      * avoid that periodic messages for one channel type are scheduled in the other channel interval
@@ -151,7 +153,7 @@ simtime_t BaseWaveApplLayer::computeAsynchronousSendingTime(simtime_t interval, 
     return firstEvent;
 }
 
-void BaseWaveApplLayer::populateWSM(WaveShortMessage* wsm, int rcvId, int serial) {
+void MyBaseWaveApplLayer::populateWSM(WaveShortMessage* wsm, int rcvId, int serial) {
 
     wsm->setWsmVersion(1);
     wsm->setTimestamp(simTime());
@@ -184,7 +186,7 @@ void BaseWaveApplLayer::populateWSM(WaveShortMessage* wsm, int rcvId, int serial
     }
 }
 
-void BaseWaveApplLayer::receiveSignal(cComponent* source, simsignal_t signalID, cObject* obj, cObject* details) {
+void MyBaseWaveApplLayer::receiveSignal(cComponent* source, simsignal_t signalID, cObject* obj, cObject* details) {
     Enter_Method_Silent();
     if (signalID == mobilityStateChangedSignal) {
         handlePositionUpdate(obj);
@@ -194,13 +196,13 @@ void BaseWaveApplLayer::receiveSignal(cComponent* source, simsignal_t signalID, 
     }
 }
 
-void BaseWaveApplLayer::handlePositionUpdate(cObject* obj) {
+void MyBaseWaveApplLayer::handlePositionUpdate(cObject* obj) {
     ChannelMobilityPtrType const mobility = check_and_cast<ChannelMobilityPtrType>(obj);
     curPosition = mobility->getCurrentPosition();
     curSpeed = mobility->getCurrentSpeed();
 }
 
-void BaseWaveApplLayer::handleParkingUpdate(cObject* obj) {
+void MyBaseWaveApplLayer::handleParkingUpdate(cObject* obj) {
     //this code should only run when used with TraCI
     isParked = mobility->getParkingState();
     if (communicateWhileParked == false) {
@@ -214,7 +216,7 @@ void BaseWaveApplLayer::handleParkingUpdate(cObject* obj) {
     }
 }
 
-void BaseWaveApplLayer::handleLowerMsg(cMessage* msg) {
+void MyBaseWaveApplLayer::handleLowerMsg(cMessage* msg) {
 
     WaveShortMessage* wsm = dynamic_cast<WaveShortMessage*>(msg);
     ASSERT(wsm);
@@ -235,7 +237,7 @@ void BaseWaveApplLayer::handleLowerMsg(cMessage* msg) {
     delete(msg);
 }
 
-void BaseWaveApplLayer::handleSelfMsg(cMessage* msg) {
+void MyBaseWaveApplLayer::handleSelfMsg(cMessage* msg) {
     switch (msg->getKind()) {
     case SEND_BEACON_EVT: {
         BasicSafetyMessage* bsm = new BasicSafetyMessage();
@@ -259,7 +261,7 @@ void BaseWaveApplLayer::handleSelfMsg(cMessage* msg) {
     }
 }
 
-void BaseWaveApplLayer::finish() {
+void MyBaseWaveApplLayer::finish() {
     recordScalar("generatedWSMs",generatedWSMs);
     recordScalar("receivedWSMs",receivedWSMs);
 
@@ -270,13 +272,13 @@ void BaseWaveApplLayer::finish() {
     recordScalar("receivedWSAs",receivedWSAs);
 }
 
-BaseWaveApplLayer::~BaseWaveApplLayer() {
+MyBaseWaveApplLayer::~MyBaseWaveApplLayer() {
     cancelAndDelete(sendBeaconEvt);
     cancelAndDelete(sendWSAEvt);
     findHost()->unsubscribe(mobilityStateChangedSignal, this);
 }
 
-void BaseWaveApplLayer::startService(Channels::ChannelNumber channel, int serviceId, std::string serviceDescription) {
+void MyBaseWaveApplLayer::startService(Channels::ChannelNumber channel, int serviceId, std::string serviceDescription) {
     if (sendWSAEvt->isScheduled()) {
         error("Starting service although another service was already started");
     }
@@ -291,22 +293,22 @@ void BaseWaveApplLayer::startService(Channels::ChannelNumber channel, int servic
 
 }
 
-void BaseWaveApplLayer::stopService() {
+void MyBaseWaveApplLayer::stopService() {
     cancelEvent(sendWSAEvt);
     currentOfferedServiceId = -1;
 }
 
-void BaseWaveApplLayer::sendDown(cMessage* msg) {
+void MyBaseWaveApplLayer::sendDown(cMessage* msg) {
     checkAndTrackPacket(msg);
     BaseApplLayer::sendDown(msg);
 }
 
-void BaseWaveApplLayer::sendDelayedDown(cMessage* msg, simtime_t delay) {
+void MyBaseWaveApplLayer::sendDelayedDown(cMessage* msg, simtime_t delay) {
     checkAndTrackPacket(msg);
     BaseApplLayer::sendDelayedDown(msg, delay);
 }
 
-void BaseWaveApplLayer::checkAndTrackPacket(cMessage* msg) {
+void MyBaseWaveApplLayer::checkAndTrackPacket(cMessage* msg) {
     if (isParked && !communicateWhileParked) error("Attempted to transmit a message while parked, but this is forbidden by current configuration");
 
     if (dynamic_cast<BasicSafetyMessage*>(msg)) {

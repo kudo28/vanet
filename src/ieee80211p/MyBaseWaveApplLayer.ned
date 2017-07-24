@@ -65,7 +65,7 @@ simple MyBaseWaveApplLayer like IBaseApplLayer
 		double patchRate = default(0.25);
 		bool patchingOn = default(false);
 		bool regenPatchingOn = default(false);
-		double commRadius @unit(m) = default(300m);
+		double commRadius @unit(m) = default(150m);
 		double commInterval @unit(s) = default(0.5s);
 
     gates:

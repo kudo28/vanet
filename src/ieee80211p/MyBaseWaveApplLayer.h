@@ -18,8 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef BASEWAVEAPPLLAYER_H_
-#define BASEWAVEAPPLLAYER_H_
+#ifndef IEEE80211P_MYBASEWAVEAPPLLAYER_H_
+#define IEEE80211P_MYBASEWAVEAPPLLAYER_H_
 
 #include <map>
 #include "veins/base/modules/BaseApplLayer.h"
@@ -53,15 +53,15 @@ using Veins::AnnotationManagerAccess;
  *
  * @ingroup applLayer
  *
- * @see BaseWaveApplLayer
+ * @see MyBaseWaveApplLayer
  * @see Mac1609_4
  * @see PhyLayer80211p
  * @see Decider80211p
  */
-class BaseWaveApplLayer : public BaseApplLayer {
+class MyBaseWaveApplLayer : public BaseApplLayer {
 
     public:
-        ~BaseWaveApplLayer();
+        ~MyBaseWaveApplLayer();
         virtual void initialize(int stage);
         virtual void finish();
 
@@ -191,4 +191,4 @@ class BaseWaveApplLayer : public BaseApplLayer {
         cMessage* sendWSAEvt;
 };
 
-#endif /* BASEWAVEAPPLLAYER_H_ */
+#endif /* IEEE80211P_MYBASEWAVEAPPLLAYER_H_ */

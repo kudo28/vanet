@@ -2,8 +2,8 @@
 #define _VIRUSAPPL_H_
 
 #include <omnetpp.h>
-//#include "ieee80211p/BaseWaveApplLayer.h"
-#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
+#include "ieee80211p/MyBaseWaveApplLayer.h"
+//#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
 #include "veins/base/utils/Coord.h"
 #include "statistics/StatisticsCollector.h"
 #include "messages/V2VMessage_m.h"
@@ -16,7 +16,7 @@ enum SIR_STATE {
     RECOVERED = 2
 };
 
-class VirusAppl : public BaseWaveApplLayer {
+class VirusAppl : public MyBaseWaveApplLayer {
     public:
         virtual void initialize(int stage);
         virtual void finish();

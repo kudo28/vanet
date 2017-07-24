@@ -27,7 +27,7 @@
 Define_Module(VirusAppl);
 
 void VirusAppl::initialize(int stage) {
-    BaseWaveApplLayer::initialize(stage);
+    MyBaseWaveApplLayer::initialize(stage);
     if (stage == 0) {
         // Initializing state variables
         cModule *grandParent = this->getParentModule()->getParentModule();
@@ -36,15 +36,16 @@ void VirusAppl::initialize(int stage) {
         stats = check_and_cast<StatisticsCollector *>(mod);
         traci = TraCIMobilityAccess().get(getParentModule());
 
-        float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        float r1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        float r2 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
 
         bool shouldInfect = simTime() > (double) par("infectStart") &&
                             simTime() < (double) par("infectStop")  &&
-                            r         < (double) par("infectRate");
+                            r1        < (double) par("infectRate");
 
         bool shouldPatch = simTime() > (double) par("patchStart") &&
                            simTime() < (double) par("patchStop")  &&
-                           r         < (double) par("patchRate")  &&
+                           r2        < (double) par("patchRate")  &&
                            (par("patchingOn") || par("regenPatchingOn"));
 
         if (shouldInfect) {
@@ -87,7 +88,6 @@ void VirusAppl::onWSM(WaveShortMessage* wsm) {
                 break;
             }
             drop(vvm);
-            delete(vvm);
         }
     }
 }
@@ -101,14 +101,18 @@ void VirusAppl::infect() {
 
 
 void VirusAppl::patch() {
-    stats->decrNumInfected();
+    if (state == INFECTED) {
+        stats->decrNumInfected();
+    }
     state = RECOVERED;
     findHost()->getDisplayString().updateWith("r=30,green");
 }
 
 
 void VirusAppl::regenPatch() {
-    stats->decrNumInfected();
+    if (state == INFECTED) {
+        stats->decrNumInfected();
+    }
     state = RECOVERED;
     findHost()->getDisplayString().updateWith("r=30,green");
     // TODO: Add regenerative patching functionality
@@ -123,6 +127,9 @@ void VirusAppl::handleSelfMsg(cMessage* msg) {
         if (state == INFECTED) {
             vvm->setPayloadType(VIRUS);
         }
+        else if (state == RECOVERED) {
+            vvm->setPayloadType(PATCH);
+        }
         else {
             vvm->setPayloadType(TRAFFIC_UPDATE);
         }
@@ -130,23 +137,25 @@ void VirusAppl::handleSelfMsg(cMessage* msg) {
         drop(vvm);
         delete(vvm);
     }
-    cancelEvent(timerMessage);
+    if (timerMessage != NULL && timerMessage->isScheduled()) {
+        cancelEvent(timerMessage);
+    }
     scheduleAt(simTime() + (double) par("commInterval"), timerMessage);
 }
 
 
 void VirusAppl::handlePositionUpdate(cObject* obj) {
-    BaseWaveApplLayer::handlePositionUpdate(obj);
+    MyBaseWaveApplLayer::handlePositionUpdate(obj);
     //the vehicle has moved. Code that reacts to new positions goes here.
     //member variables such as currentPosition and currentSpeed are updated in the parent class
 }
 
 
 void VirusAppl::finish() {
-    BaseWaveApplLayer::finish();
+    MyBaseWaveApplLayer::finish();
     cancelAndDelete(timerMessage);
-    if(state == INFECTED) {
-        stats->decrNumInfected();
-    }
-    stats->decrNumVehicles();
+//    if(state == INFECTED) {
+//        stats->decrNumInfected();
+//    }
+//    stats->decrNumVehicles();
 }
