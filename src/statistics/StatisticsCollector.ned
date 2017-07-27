@@ -21,4 +21,7 @@ simple StatisticsCollector
 		string appName = default("StatisticsCollector");
 		@signal[fracInfectedSignal](type="double");
 		@statistic[fracInfected](title="fracInfected"; source="fracInfectedSignal"; record=vector,mean);
+
+		@signal[sigPdr](type="double");
+		@statistic[pdr](title="PacketDeliveryRate"; source="sigPdr"; record=vector,mean);
 }

@@ -550,7 +550,7 @@ void MyDecider80211p::finish() {
 	simtime_t totalTime = simTime() - myStartTime;
 	phy->recordScalar("busyTime", myBusyTime / totalTime.dbl());
 	if (collectCollisionStats) {
-		phy->recordScalar("nsdscollisions", collisions);
+		phy->recordScalar("ncollisions", collisions);
 	}
 }
 

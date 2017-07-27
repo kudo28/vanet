@@ -40,7 +40,7 @@ void MyMac1609_4::initialize(int stage) {
 	BaseMacLayer::initialize(stage);
 	if (stage == 0) {
 	    cModule *grandGrandParent = this->getParentModule()->getParentModule()->getParentModule();
-        cModule *mod = grandGrandParent->getSubmodule("statisticsCollector");
+	    cModule *mod = grandGrandParent->getSubmodule("statisticsCollector");
         stats = check_and_cast<StatisticsCollector *>(mod);
 
 		phy11p = FindModule<Mac80211pToPhy11pInterface*>::findSubModule(
@@ -380,7 +380,6 @@ void MyMac1609_4::setActiveChannel(t_channel state) {
 
 void MyMac1609_4::finish() {
 	//clean up queues.
-    printf("MAC1609 is stopping\n");
 	for (std::map<t_channel,EDCA*>::iterator iter = myEDCA.begin(); iter != myEDCA.end(); iter++) {
 		statsNumInternalContention += iter->second->statsNumInternalContention;
 		statsNumBackoff += iter->second->statsNumBackoff;
