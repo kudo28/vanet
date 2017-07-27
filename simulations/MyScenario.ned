@@ -62,6 +62,5 @@ network MyScenario
         statisticsCollector: StatisticsCollector {
             @display("p=3200,2100");
         }
-        
     connections allowunconnected:
 }

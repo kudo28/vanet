@@ -32,9 +32,9 @@ void VirusAppl::initialize(int stage) {
         // Initializing state variables
         cModule *grandParent = this->getParentModule()->getParentModule();
         cModule *mod = grandParent->getSubmodule("statisticsCollector");
-        timerMessage = new cMessage;
         stats = check_and_cast<StatisticsCollector *>(mod);
         traci = TraCIMobilityAccess().get(getParentModule());
+        timerMessage = new cMessage;
 
         float r1 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
         float r2 = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
@@ -61,7 +61,9 @@ void VirusAppl::initialize(int stage) {
 
         // Send self-message to trigger the messaging process
         scheduleAt(simTime() + uniform(0.01,0.2), timerMessage);
-        stats->incrNumVehicles();
+        if (simTime() > (double) par("commStart")){
+            stats->incrNumVehicles();
+        }
     }
 }
 

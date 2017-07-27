@@ -21,7 +21,7 @@
 package vanet.nodes;
 
 import org.car2x.veins.base.modules.*;
-import org.car2x.veins.modules.nic.Nic80211p;
+import vanet.nic.Nic80211p;
 
 module Car
 {
@@ -37,7 +37,7 @@ module Car
                 @display("p=60,50");
         }
 
-        nic: <nicType> like org.car2x.veins.modules.nic.INic80211p {
+        nic: <nicType> like vanet.nic.INic80211p {
             parameters:
                 @display("p=60,166");
         }
