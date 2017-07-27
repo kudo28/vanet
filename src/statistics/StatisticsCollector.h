@@ -20,14 +20,21 @@ class StatisticsCollector: public cSimpleModule {
     private:
         int numInfected;
         int numVehicles;
+        int numSent;
+        int numReceived;
         double fracInfected;
+        double pdr;
+        simsignal_t sigPdr;
         simsignal_t fracInfectedSignal;
         void updateFracInfected();
+        void updatePdr();
     public:
         void incrNumInfected();
         void decrNumInfected();
         void incrNumVehicles();
         void decrNumVehicles();
+        void incrNumSent();
+        void incrNumReceived();
         int getNumInfected();
         double getFracInfected();
 };

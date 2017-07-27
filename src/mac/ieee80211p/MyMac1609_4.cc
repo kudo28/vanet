@@ -52,7 +52,6 @@ void MyMac1609_4::initialize(int stage) {
 
 		sigChannelBusy = registerSignal("sigChannelBusy");
 		sigCollision = registerSignal("sigCollision");
-		sigPdr = registerSignal("sigPdr");
 
 		txPower = par("txPower").doubleValue();
 		bitrate = par("bitrate").longValue();
@@ -146,8 +145,6 @@ void MyMac1609_4::initialize(int stage) {
 		idleChannel = true;
 		lastBusy = simTime();
 		channelIdle(true);
-		pdr = 0;
-	    emit(sigPdr, pdr);
 	}
 }
 
@@ -233,6 +230,7 @@ void MyMac1609_4::handleSelfMsg(cMessage* msg) {
 			DBG_MAC << "Sending a Packet. Frequency " << freq << " Priority" << lastAC << std::endl;
 			sendDelayed(mac, RADIODELAY_11P, lowerLayerOut);
 			statsSentPackets++;
+			stats->incrNumSent();
 		}
 		else {   //not enough time left now
 			DBG_MAC << "Too little Time left. This packet cannot be send in this slot." << std::endl;
@@ -244,8 +242,6 @@ void MyMac1609_4::handleSelfMsg(cMessage* msg) {
 			//do nothing. contention will automatically start after channel switch
 		}
 	}
-    pdr = (double) statsReceivedPackets / (double) statsSentPackets;
-    emit(sigPdr, pdr);
 }
 
 void MyMac1609_4::handleUpperControl(cMessage* msg) {
@@ -524,6 +520,7 @@ void MyMac1609_4::handleLowerMsg(cMessage* msg) {
 	if (macPkt->getDestAddr() == myMacAddress) {
 		DBG_MAC << "Received a data packet addressed to me." << std::endl;
 		statsReceivedPackets++;
+        stats->incrNumReceived();
 		sendUp(wsm);
 	}
 	else if (dest == LAddress::L2BROADCAST()) {
@@ -535,8 +532,6 @@ void MyMac1609_4::handleLowerMsg(cMessage* msg) {
 		delete wsm;
 	}
 	delete macPkt;
-	pdr = (double) statsReceivedPackets / (double) statsSentPackets;
-	emit(sigPdr, pdr);
 }
 
 int MyMac1609_4::EDCA::queuePacket(t_access_category ac,WaveShortMessage* msg) {

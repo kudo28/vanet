@@ -240,7 +240,6 @@ class MyMac1609_4 : public BaseMacLayer,
 		bool idleChannel;
 
 		/** @brief stats */
-		double pdr;
 		long statsReceivedPackets;
 		long statsReceivedBroadcasts;
 		long statsSentPackets;
@@ -274,8 +273,6 @@ class MyMac1609_4 : public BaseMacLayer,
 		simsignal_t sigChannelBusy;
 		//tell to anybody which is interested when a collision occurred
 		simsignal_t sigCollision;
-
-        simsignal_t sigPdr;
 
 	private:
         StatisticsCollector* stats;

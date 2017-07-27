@@ -66,7 +66,4 @@ simple MyMac1609_4 extends BaseMacLayer
         // signal informing interested application about a collision
         @signal[sigCollision](type=bool);
         
-		@signal[sigPdr](type="double");
-		@statistic[pdr](title="packetDeliveryRate"; source="sigPdr"; record=vector);
-
 }
