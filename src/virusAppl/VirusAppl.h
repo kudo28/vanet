@@ -3,7 +3,6 @@
 
 #include <omnetpp.h>
 #include "ieee80211p/MyBaseWaveApplLayer.h"
-//#include "veins/modules/application/ieee80211p/BaseWaveApplLayer.h"
 #include "veins/base/utils/Coord.h"
 #include "statistics/StatisticsCollector.h"
 #include "messages/V2VMessage_m.h"

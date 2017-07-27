@@ -28,7 +28,7 @@ module Car
     parameters:
         string applType;
         string nicType = default("Nic80211p");
-        string veinsmobilityType = default("org.car2x.veins.modules.mobility.traci.TraCIMobility");
+        string veinsmobilityType = default("vanet.traci.TraCIMobility");
     gates:
         input veinsradioIn;
     submodules:

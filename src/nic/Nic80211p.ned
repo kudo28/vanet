@@ -20,8 +20,8 @@
 
 package vanet.nic;
 
-import org.car2x.veins.modules.phy.PhyLayer80211p;
-import vanet.mac.ieee80211p.Mac1609_4;
+import vanet.phy.MyPhyLayer80211p;
+import vanet.mac.ieee80211p.MyMac1609_4;
 
 //
 // This NIC implements an 802.11p network interface card.
@@ -42,11 +42,11 @@ module Nic80211p like INic80211p
         input radioIn; // radioIn gate for sendDirect
 
     submodules:
-        phy80211p: PhyLayer80211p {
+        phy80211p: MyPhyLayer80211p {
             @display("p=69,218;i=block/process_s");
         }
 
-        mac1609_4: Mac1609_4 {
+        mac1609_4: MyMac1609_4 {
             @display("p=69,82");
         }
 

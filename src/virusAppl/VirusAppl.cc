@@ -33,6 +33,7 @@ void VirusAppl::initialize(int stage) {
         cModule *grandParent = this->getParentModule()->getParentModule();
         cModule *mod = grandParent->getSubmodule("statisticsCollector");
         stats = check_and_cast<StatisticsCollector *>(mod);
+
         traci = TraCIMobilityAccess().get(getParentModule());
         timerMessage = new cMessage;
 

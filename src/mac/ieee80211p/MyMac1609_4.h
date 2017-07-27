@@ -18,8 +18,8 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //
 
-#ifndef ___MAC1609_4_H_
-#define ___MAC1609_4_H_
+#ifndef ___MYMAC1609_4_H_
+#define ___MYMAC1609_4_H_
 
 #include <assert.h>
 #include <omnetpp.h>
@@ -27,13 +27,14 @@
 #include <stdint.h>
 #include "veins/base/modules/BaseLayer.h"
 #include "veins/base/phyLayer/MacToPhyControlInfo.h"
-#include "veins/modules/phy/PhyLayer80211p.h"
+#include "phy/MyPhyLayer80211p.h"
 #include "veins/modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h"
 #include "veins/modules/utility/Consts80211p.h"
 #include "veins/base/utils/FindModule.h"
 #include "veins/modules/messages/Mac80211Pkt_m.h"
 #include "veins/modules/messages/WaveShortMessage_m.h"
 #include "veins/base/modules/BaseMacLayer.h"
+#include "statistics/StatisticsCollector.h"
 
 #include "veins/modules/utility/ConstsPhy.h"
 
@@ -50,12 +51,12 @@
  * @ingroup macLayer
  *
  * @see BaseWaveApplLayer
- * @see Mac1609_4
+ * @see MyMac1609_4
  * @see PhyLayer80211p
  * @see Decider80211p
  */
 
-class Mac1609_4 : public BaseMacLayer,
+class MyMac1609_4 : public BaseMacLayer,
 	public WaveAppToMac1609_4Interface {
 
 	public:
@@ -91,7 +92,7 @@ class Mac1609_4 : public BaseMacLayer,
 					statsSlotsBackoff = 0;
 				};
                 const cObject *getThisPtr() const  {return NULL;}
-                const char *getClassName() const {return "Mac1609_4::EDCA"; }
+                const char *getClassName() const {return "MyMac1609_4::EDCA"; }
 				/*
 				 * Currently you have to call createQueue in the right order. First Call is priority 0, second 1 and so on...
 				 */
@@ -126,7 +127,7 @@ class Mac1609_4 : public BaseMacLayer,
 		};
 
 	public:
-		~Mac1609_4() { };
+		~MyMac1609_4() { };
 
 		/**
 		 * @brief return true if alternate access is enabled
@@ -275,6 +276,9 @@ class Mac1609_4 : public BaseMacLayer,
 		simsignal_t sigCollision;
 
         simsignal_t sigPdr;
+
+	private:
+        StatisticsCollector* stats;
 };
 
-#endif /* ___MAC1609_4_H_*/
+#endif /* ___MYMAC1609_4_H_*/

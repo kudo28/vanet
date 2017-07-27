@@ -32,10 +32,10 @@ import org.car2x.veins.base.modules.BaseMacLayer;
 // @see Nic80211p
 // @see PhyLayer80211p
 //
-simple Mac1609_4 extends BaseMacLayer
+simple MyMac1609_4 extends BaseMacLayer
 {
     parameters:
-        @class(Mac1609_4);
+        @class(MyMac1609_4);
 
         // cycle between an SCH and the CCH (or stay on CCH all the time)
         bool useServiceChannel = default(true);
@@ -67,6 +67,6 @@ simple Mac1609_4 extends BaseMacLayer
         @signal[sigCollision](type=bool);
         
 		@signal[sigPdr](type="double");
-		@statistic[pdr](title="packetDeliveryRate"; source="sigPdr"; record=vector,mean);
+		@statistic[pdr](title="packetDeliveryRate"; source="sigPdr"; record=vector);
 
 }

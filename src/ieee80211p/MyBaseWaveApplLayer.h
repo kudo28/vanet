@@ -29,8 +29,7 @@
 #include "veins/modules/messages/BasicSafetyMessage_m.h"
 #include "veins/base/connectionManager/ChannelAccess.h"
 #include "veins/modules/mac/ieee80211p/WaveAppToMac1609_4Interface.h"
-//#include "traci/TraCIMobility.h"
-#include "veins/modules/mobility/traci/TraCIMobility.h"
+#include "traci/MyTraCIMobility.h"
 #include "veins/modules/mobility/traci/TraCICommandInterface.h"
 
 using Veins::TraCIMobility;

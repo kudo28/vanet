@@ -34,11 +34,15 @@
 #define DBG_MAC EV
 //#define DBG_MAC std::cerr << "[" << simTime().raw() << "] " << myId << " "
 
-Define_Module(Mac1609_4);
+Define_Module(MyMac1609_4);
 
-void Mac1609_4::initialize(int stage) {
+void MyMac1609_4::initialize(int stage) {
 	BaseMacLayer::initialize(stage);
 	if (stage == 0) {
+	    cModule *grandGrandParent = this->getParentModule()->getParentModule()->getParentModule();
+        cModule *mod = grandGrandParent->getSubmodule("statisticsCollector");
+        stats = check_and_cast<StatisticsCollector *>(mod);
+
 		phy11p = FindModule<Mac80211pToPhy11pInterface*>::findSubModule(
 		             getParentModule());
 		assert(phy11p);
@@ -147,7 +151,7 @@ void Mac1609_4::initialize(int stage) {
 	}
 }
 
-void Mac1609_4::handleSelfMsg(cMessage* msg) {
+void MyMac1609_4::handleSelfMsg(cMessage* msg) {
 	if (msg == nextChannelSwitch) {
 		ASSERT(useSCH);
 
@@ -244,11 +248,11 @@ void Mac1609_4::handleSelfMsg(cMessage* msg) {
     emit(sigPdr, pdr);
 }
 
-void Mac1609_4::handleUpperControl(cMessage* msg) {
+void MyMac1609_4::handleUpperControl(cMessage* msg) {
 	assert(false);
 }
 
-void Mac1609_4::handleUpperMsg(cMessage* msg) {
+void MyMac1609_4::handleUpperMsg(cMessage* msg) {
 
 	WaveShortMessage* thisMsg;
 	if ((thisMsg = dynamic_cast<WaveShortMessage*>(msg)) == NULL) {
@@ -319,7 +323,7 @@ void Mac1609_4::handleUpperMsg(cMessage* msg) {
 
 }
 
-void Mac1609_4::handleLowerControl(cMessage* msg) {
+void MyMac1609_4::handleLowerControl(cMessage* msg) {
 	if (msg->getKind() == MacToPhyInterface::TX_OVER) {
 
 		DBG_MAC << "Successfully transmitted a packet on " << lastAC << std::endl;
@@ -342,11 +346,11 @@ void Mac1609_4::handleLowerControl(cMessage* msg) {
 	else if (msg->getKind() == Mac80211pToPhy11pInterface::CHANNEL_IDLE) {
 		channelIdle();
 	}
-	else if (msg->getKind() == Decider80211p::BITERROR || msg->getKind() == Decider80211p::COLLISION) {
+	else if (msg->getKind() == MyDecider80211p::BITERROR || msg->getKind() == MyDecider80211p::COLLISION) {
 		statsSNIRLostPackets++;
 		DBG_MAC << "A packet was not received due to biterrors" << std::endl;
 	}
-	else if (msg->getKind() == Decider80211p::RECWHILESEND) {
+	else if (msg->getKind() == MyDecider80211p::RECWHILESEND) {
 		statsTXRXLostPackets++;
 		DBG_MAC << "A packet was not received because we were sending while receiving" << std::endl;
 	}
@@ -362,19 +366,19 @@ void Mac1609_4::handleLowerControl(cMessage* msg) {
 		assert(false);
 	}
 
-	if (msg->getKind() == Decider80211p::COLLISION) {
+	if (msg->getKind() == MyDecider80211p::COLLISION) {
 		emit(sigCollision, true);
 	}
 
 	delete msg;
 }
 
-void Mac1609_4::setActiveChannel(t_channel state) {
+void MyMac1609_4::setActiveChannel(t_channel state) {
 	activeChannel = state;
 	assert(state == type_CCH || (useSCH && state == type_SCH));
 }
 
-void Mac1609_4::finish() {
+void MyMac1609_4::finish() {
 	//clean up queues.
     printf("MAC1609 is stopping\n");
 	for (std::map<t_channel,EDCA*>::iterator iter = myEDCA.begin(); iter != myEDCA.end(); iter++) {
@@ -412,7 +416,7 @@ void Mac1609_4::finish() {
 
 }
 
-void Mac1609_4::attachSignal(Mac80211Pkt* mac, simtime_t startTime, double frequency, uint64_t datarate, double txPower_mW) {
+void MyMac1609_4::attachSignal(Mac80211Pkt* mac, simtime_t startTime, double frequency, uint64_t datarate, double txPower_mW) {
 
 	simtime_t duration = getFrameDuration(mac->getBitLength());
 
@@ -422,7 +426,7 @@ void Mac1609_4::attachSignal(Mac80211Pkt* mac, simtime_t startTime, double frequ
 	mac->setControlInfo(cinfo);
 }
 
-Signal* Mac1609_4::createSignal(simtime_t start, simtime_t length, double power, uint64_t bitrate, double frequency) {
+Signal* MyMac1609_4::createSignal(simtime_t start, simtime_t length, double power, uint64_t bitrate, double frequency) {
 	simtime_t end = start + length;
 	//create signal with start at current simtime and passed length
 	Signal* s = new Signal(start, length);
@@ -445,7 +449,7 @@ Signal* Mac1609_4::createSignal(simtime_t start, simtime_t length, double power,
 }
 
 /* checks if guard is active */
-bool Mac1609_4::guardActive() const {
+bool MyMac1609_4::guardActive() const {
 	if (!useSCH) return false;
 	if (simTime().dbl() - nextChannelSwitch->getSendingTime() <= GUARD_INTERVAL_11P)
 		return true;
@@ -453,7 +457,7 @@ bool Mac1609_4::guardActive() const {
 }
 
 /* returns the time until the guard is over */
-simtime_t Mac1609_4::timeLeftTillGuardOver() const {
+simtime_t MyMac1609_4::timeLeftTillGuardOver() const {
 	ASSERT(useSCH);
 	simtime_t sTime = simTime();
 	if (sTime - nextChannelSwitch->getSendingTime() <= GUARD_INTERVAL_11P) {
@@ -465,13 +469,13 @@ simtime_t Mac1609_4::timeLeftTillGuardOver() const {
 }
 
 /* returns the time left in this channel window */
-simtime_t Mac1609_4::timeLeftInSlot() const {
+simtime_t MyMac1609_4::timeLeftInSlot() const {
 	ASSERT(useSCH);
 	return nextChannelSwitch->getArrivalTime() - simTime();
 }
 
 /* Will change the Service Channel on which the mac layer is listening and sending */
-void Mac1609_4::changeServiceChannel(int cN) {
+void MyMac1609_4::changeServiceChannel(int cN) {
 	ASSERT(useSCH);
 	if (cN != Channels::SCH1 && cN != Channels::SCH2 && cN != Channels::SCH3 && cN != Channels::SCH4) {
 		throw cRuntimeError("This Service Channel doesnt exit: %d",cN);
@@ -486,20 +490,20 @@ void Mac1609_4::changeServiceChannel(int cN) {
 	}
 }
 
-void Mac1609_4::setTxPower(double txPower_mW) {
+void MyMac1609_4::setTxPower(double txPower_mW) {
 	txPower = txPower_mW;
 }
-void Mac1609_4::setMCS(enum PHY_MCS mcs) {
+void MyMac1609_4::setMCS(enum PHY_MCS mcs) {
 	ASSERT2(mcs != MCS_DEFAULT, "invalid MCS selected");
 	bitrate = getOfdmDatarate(mcs, BW_OFDM_10_MHZ);
 	setParametersForBitrate(bitrate);
 }
 
-void Mac1609_4::setCCAThreshold(double ccaThreshold_dBm) {
+void MyMac1609_4::setCCAThreshold(double ccaThreshold_dBm) {
 	phy11p->setCCAThreshold(ccaThreshold_dBm);
 }
 
-void Mac1609_4::handleLowerMsg(cMessage* msg) {
+void MyMac1609_4::handleLowerMsg(cMessage* msg) {
 	Mac80211Pkt* macPkt = static_cast<Mac80211Pkt*>(msg);
 	ASSERT(macPkt);
 
@@ -532,12 +536,11 @@ void Mac1609_4::handleLowerMsg(cMessage* msg) {
 		delete wsm;
 	}
 	delete macPkt;
-	// TODO: emit sigPdr
 	pdr = (double) statsReceivedPackets / (double) statsSentPackets;
 	emit(sigPdr, pdr);
 }
 
-int Mac1609_4::EDCA::queuePacket(t_access_category ac,WaveShortMessage* msg) {
+int MyMac1609_4::EDCA::queuePacket(t_access_category ac,WaveShortMessage* msg) {
 
 	if (maxQueueSize && myQueues[ac].queue.size() >= maxQueueSize) {
 		delete msg;
@@ -547,7 +550,7 @@ int Mac1609_4::EDCA::queuePacket(t_access_category ac,WaveShortMessage* msg) {
 	return myQueues[ac].queue.size();
 }
 
-int Mac1609_4::EDCA::createQueue(int aifsn, int cwMin, int cwMax,t_access_category ac) {
+int MyMac1609_4::EDCA::createQueue(int aifsn, int cwMin, int cwMax,t_access_category ac) {
 
 	if (myQueues.find(ac) != myQueues.end()) {
 		throw cRuntimeError("You can only add one queue per Access Category per EDCA subsystem");
@@ -559,7 +562,7 @@ int Mac1609_4::EDCA::createQueue(int aifsn, int cwMin, int cwMax,t_access_catego
 	return ++numQueues;
 }
 
-Mac1609_4::t_access_category Mac1609_4::mapPriority(int prio) {
+MyMac1609_4::t_access_category MyMac1609_4::mapPriority(int prio) {
 	//dummy mapping function
 	switch (prio) {
 		case 0: return AC_BK;
@@ -571,7 +574,7 @@ Mac1609_4::t_access_category Mac1609_4::mapPriority(int prio) {
 	return AC_VO;
 }
 
-WaveShortMessage* Mac1609_4::EDCA::initiateTransmit(simtime_t lastIdle) {
+WaveShortMessage* MyMac1609_4::EDCA::initiateTransmit(simtime_t lastIdle) {
 
 	//iterate through the queues to return the packet we want to send
 	WaveShortMessage* pktToSend = NULL;
@@ -609,7 +612,7 @@ WaveShortMessage* Mac1609_4::EDCA::initiateTransmit(simtime_t lastIdle) {
 	return pktToSend;
 }
 
-simtime_t Mac1609_4::EDCA::startContent(simtime_t idleSince,bool guardActive) {
+simtime_t MyMac1609_4::EDCA::startContent(simtime_t idleSince,bool guardActive) {
 
 	DBG_MAC << "Restarting contention." << std::endl;
 
@@ -659,7 +662,7 @@ simtime_t Mac1609_4::EDCA::startContent(simtime_t idleSince,bool guardActive) {
 	return nextEvent;
 }
 
-void Mac1609_4::EDCA::stopContent(bool allowBackoff, bool generateTxOp) {
+void MyMac1609_4::EDCA::stopContent(bool allowBackoff, bool generateTxOp) {
 	//update all Queues
 
 	DBG_MAC << "Stopping Contention at " << simTime().raw() << std::endl;
@@ -713,14 +716,14 @@ void Mac1609_4::EDCA::stopContent(bool allowBackoff, bool generateTxOp) {
 		}
 	}
 }
-void Mac1609_4::EDCA::backoff(t_access_category ac) {
+void MyMac1609_4::EDCA::backoff(t_access_category ac) {
 	myQueues[ac].currentBackoff = OWNER intuniform(0,myQueues[ac].cwCur);
 	statsSlotsBackoff += myQueues[ac].currentBackoff;
 	statsNumBackoff++;
 	DBG_MAC << "Going into Backoff because channel was busy when new packet arrived from upperLayer" << std::endl;
 }
 
-void Mac1609_4::EDCA::postTransmit(t_access_category ac) {
+void MyMac1609_4::EDCA::postTransmit(t_access_category ac) {
 	delete myQueues[ac].queue.front();
 	myQueues[ac].queue.pop();
 	myQueues[ac].cwCur = myQueues[ac].cwMin;
@@ -731,7 +734,7 @@ void Mac1609_4::EDCA::postTransmit(t_access_category ac) {
 	DBG_MAC << "Queue " << ac << " will go into post-transmit backoff for " << myQueues[ac].currentBackoff << " slots" << std::endl;
 }
 
-void Mac1609_4::EDCA::cleanUp() {
+void MyMac1609_4::EDCA::cleanUp() {
 	for (std::map<t_access_category, EDCAQueue>::iterator iter = myQueues.begin(); iter != myQueues.end(); iter++) {
 		while (iter->second.queue.size() != 0) {
 			delete iter->second.queue.front();
@@ -741,7 +744,7 @@ void Mac1609_4::EDCA::cleanUp() {
 	myQueues.clear();
 }
 
-void Mac1609_4::EDCA::revokeTxOPs() {
+void MyMac1609_4::EDCA::revokeTxOPs() {
 	for (std::map<t_access_category, EDCAQueue>::iterator iter = myQueues.begin(); iter != myQueues.end(); iter++) {
 		if (iter->second.txOP == true) {
 			iter->second.txOP = false;
@@ -750,7 +753,7 @@ void Mac1609_4::EDCA::revokeTxOPs() {
 	}
 }
 
-void Mac1609_4::channelBusySelf(bool generateTxOp) {
+void MyMac1609_4::channelBusySelf(bool generateTxOp) {
 
 	//the channel turned busy because we're sending. we don't want our queues to go into backoff
 	//internal contention is already handled in initiateTransmission
@@ -773,7 +776,7 @@ void Mac1609_4::channelBusySelf(bool generateTxOp) {
 	emit(sigChannelBusy, true);
 }
 
-void Mac1609_4::channelBusy() {
+void MyMac1609_4::channelBusy() {
 
 	if (!idleChannel) return;
 
@@ -794,7 +797,7 @@ void Mac1609_4::channelBusy() {
 	emit(sigChannelBusy, true);
 }
 
-void Mac1609_4::channelIdle(bool afterSwitch) {
+void MyMac1609_4::channelIdle(bool afterSwitch) {
 
 	DBG_MAC << "Channel turned idle: Switch: " << afterSwitch << std::endl;
 
@@ -842,7 +845,7 @@ void Mac1609_4::channelIdle(bool afterSwitch) {
 
 }
 
-void Mac1609_4::setParametersForBitrate(uint64_t bitrate) {
+void MyMac1609_4::setParametersForBitrate(uint64_t bitrate) {
 	for (unsigned int i = 0; i < NUM_BITRATES_80211P; i++) {
 		if (bitrate == BITRATES_80211P[i]) {
 			n_dbps = N_DBPS_80211P[i];
@@ -852,19 +855,19 @@ void Mac1609_4::setParametersForBitrate(uint64_t bitrate) {
 	throw cRuntimeError("Chosen Bitrate is not valid for 802.11p: Valid rates are: 3Mbps, 4.5Mbps, 6Mbps, 9Mbps, 12Mbps, 18Mbps, 24Mbps and 27Mbps. Please adjust your omnetpp.ini file accordingly.");
 }
 
-bool Mac1609_4::isChannelSwitchingActive() {
+bool MyMac1609_4::isChannelSwitchingActive() {
     return useSCH;
 }
 
-simtime_t Mac1609_4::getSwitchingInterval() {
+simtime_t MyMac1609_4::getSwitchingInterval() {
     return SWITCHING_INTERVAL_11P;
 }
 
-bool Mac1609_4::isCurrentChannelCCH() {
+bool MyMac1609_4::isCurrentChannelCCH() {
     return (activeChannel ==  type_CCH);
 }
 
-simtime_t Mac1609_4::getFrameDuration(int payloadLengthBits, enum PHY_MCS mcs) const {
+simtime_t MyMac1609_4::getFrameDuration(int payloadLengthBits, enum PHY_MCS mcs) const {
     simtime_t duration;
     if (mcs == MCS_DEFAULT) {
         // calculate frame duration according to Equation (17-29) of the IEEE 802.11-2007 standard
