@@ -1,0 +1,5 @@
+<launch>
+  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo3\grid-0p2\grid.net.xml"/>
+  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo3\grid-0p2\grid-0p2.rou.xml"/>
+  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo3\grid-0p2\grid-0p2.sumocfg" type="config"/>
+</launch>

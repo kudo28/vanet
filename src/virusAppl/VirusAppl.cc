@@ -61,10 +61,8 @@ void VirusAppl::initialize(int stage) {
         }
 
         // Send self-message to trigger the messaging process
-        scheduleAt(simTime() + uniform(0.01,0.2), timerMessage);
-        if (simTime() > (double) par("commStart")){
-            stats->incrNumVehicles();
-        }
+        scheduleAt(simTime() + uniform(0.01,2), timerMessage);
+        stats->incrNumVehicles();
     }
 }
 
@@ -157,8 +155,8 @@ void VirusAppl::handlePositionUpdate(cObject* obj) {
 void VirusAppl::finish() {
     MyBaseWaveApplLayer::finish();
     cancelAndDelete(timerMessage);
-//    if(state == INFECTED) {
-//        stats->decrNumInfected();
-//    }
-//    stats->decrNumVehicles();
+    if(state == INFECTED) {
+        stats->decrNumInfected();
+    }
+    stats->decrNumVehicles();
 }
