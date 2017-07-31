@@ -21,7 +21,7 @@
 package vanet.nic;
 
 import vanet.phy.MyPhyLayer80211p;
-import vanet.mac.ieee80211p.MyMac1609_4;
+import vanet.mac.MyMac1609_4;
 
 //
 // This NIC implements an 802.11p network interface card.

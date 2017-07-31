@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!-- generated on 2017-07-30 13:07:02.769989 by $Id: randomTrips.py 23999 2017-04-21 09:04:47Z behrisch $
+  options: -n grid.net.xml -o grid-5p0/grid-5p0.trips.xml -r grid-5p0/grid-5p0.rou.xml -e 100 -p 5.0
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <trip id="0" depart="0.00" from="4/5to4/6" to="0/4to1/4"/>
+    <trip id="1" depart="5.00" from="2/3to2/4" to="4/4to4/5"/>
+    <trip id="2" depart="10.00" from="left4to0/4" to="2/5to2/4"/>
+    <trip id="3" depart="15.00" from="3/6to3/5" to="1/4to1/3"/>
+    <trip id="4" depart="20.00" from="3/7to3/8" to="2/8to3/8"/>
+    <trip id="5" depart="25.00" from="0/7to0/8" to="4/7to4/6"/>
+    <trip id="6" depart="30.00" from="1/3to2/3" to="1/2to1/3"/>
+    <trip id="7" depart="35.00" from="1/0to0/0" to="4/9to3/9"/>
+    <trip id="8" depart="40.00" from="4/9to4/8" to="4/7to4/6"/>
+    <trip id="9" depart="45.00" from="3/7to4/7" to="4/4toright4"/>
+    <trip id="10" depart="50.00" from="1/8to1/7" to="4/6to4/5"/>
+    <trip id="11" depart="55.00" from="2/4to2/3" to="0/7to0/8"/>
+    <trip id="12" depart="60.00" from="2/2to1/2" to="0/6to0/7"/>
+    <trip id="13" depart="65.00" from="3/3to3/2" to="3/6to2/6"/>
+    <trip id="14" depart="70.00" from="2/9to2/8" to="3/5to2/5"/>
+    <trip id="15" depart="75.00" from="left1to0/1" to="3/0to2/0"/>
+    <trip id="16" depart="80.00" from="0/8to0/7" to="2/5to1/5"/>
+    <trip id="17" depart="85.00" from="1/8to1/7" to="1/3to0/3"/>
+    <trip id="18" depart="90.00" from="2/0to1/0" to="4/0tobottom4"/>
+    <trip id="19" depart="95.00" from="2/5to3/5" to="0/3to1/3"/>
+</routes>

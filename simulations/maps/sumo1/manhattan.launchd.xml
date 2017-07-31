@@ -1,0 +1,6 @@
+<launch>
+  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo1\manhattan.net.xml"/>
+  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo1\manhattan.rou.xml"/>
+  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo1\manhattan.sumocfg" type="config"/>
+  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo1\manhattan.gui-settings.xml"/>
+</launch>

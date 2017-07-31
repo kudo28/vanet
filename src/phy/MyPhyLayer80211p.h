@@ -21,6 +21,7 @@
 #ifndef MYPHYLAYER80211P_H_
 #define MYPHYLAYER80211P_H_
 
+#include "statistics/StatisticsCollector.h"
 #include "veins/base/phyLayer/BasePhyLayer.h"
 #include "veins/modules/mac/ieee80211p/Mac80211pToPhy11pInterface.h"
 #include "MyDecider80211p.h"
@@ -173,6 +174,7 @@ class MyPhyLayer80211p	: 	public BasePhyLayer,
 		virtual void handleSelfMessage(cMessage* msg);
 		virtual int getRadioState();
 		virtual simtime_t setRadioState(int rs);
+
 };
 
 #endif /* MYPHYLAYER80211P_H_ */

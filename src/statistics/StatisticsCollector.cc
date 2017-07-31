@@ -6,14 +6,18 @@ Define_Module(StatisticsCollector);
 void StatisticsCollector::initialize() {
     numInfected = 0;
     numVehicles = 0;
-    numSent = 0;
-    numReceived = 0;
+    numOkay = 0;
+    numError = 0;
     fracInfected = 0;
-    pdr = 0;
+    errorRate = 0;
     fracInfectedSignal = registerSignal("fracInfectedSignal");
-    sigPdr = registerSignal("sigPdr");
+    sigErrorRate = registerSignal("sigErrorRate");
+    sigNumOkay = registerSignal("sigNumOkay");
+    sigNumError = registerSignal("sigNumError");
     emit(fracInfectedSignal, fracInfected);
-    emit(sigPdr, pdr);
+    emit(sigErrorRate, errorRate);
+    emit(sigNumOkay, numOkay);
+    emit(sigNumError, numError);
 }
 
 void StatisticsCollector::handleMessage(cMessage *msg) {}
@@ -55,21 +59,23 @@ double StatisticsCollector::getFracInfected() {
     return fracInfected;
 }
 
-void StatisticsCollector::incrNumSent() {
+void StatisticsCollector::incrNumOkay() {
     Enter_Method_Silent();
-    numSent++;
-    updatePdr();
+    numOkay++;
+    updateErrorRate();
 }
 
-void StatisticsCollector::incrNumReceived() {
+void StatisticsCollector::incrNumError() {
     Enter_Method_Silent();
-    numReceived++;
-    updatePdr();
+    numError++;
+    updateErrorRate();
 }
 
-void StatisticsCollector::updatePdr() {
-    pdr = (double) numReceived / (double) numSent;
-    emit(sigPdr, pdr);
+void StatisticsCollector::updateErrorRate() {
+    errorRate = (double) numOkay / (double) (numError+numOkay);
+    emit(sigErrorRate, errorRate);
+    emit(sigNumOkay, numOkay);
+    emit(sigNumError, numError);
 }
 
 void StatisticsCollector::finish() {

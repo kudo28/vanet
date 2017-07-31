@@ -22,6 +22,7 @@
 #ifndef MYDECIDER80211p_H_
 #define MYDECIDER80211p_H_
 
+#include "statistics/StatisticsCollector.h"
 #include "veins/base/phyLayer/BaseDecider.h"
 #include "veins/modules/utility/Consts80211p.h"
 #include "veins/modules/mac/ieee80211p/Mac80211pToPhy11pInterface.h"

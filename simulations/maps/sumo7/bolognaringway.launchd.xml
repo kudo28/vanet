@@ -1,5 +1,0 @@
-<launch>
-  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo7\bolognaringway.net.xml"/>
-  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo7\bolognaringway.rou.xml"/>
-  <copy file="C:\Users\Jacob\src\omnetpp-5.0\samples\vanet\simulations\maps\sumo7\bolognaringway.sumocfg" type="config"/>
-</launch>

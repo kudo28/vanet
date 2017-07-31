@@ -1,6 +1,0 @@
-<launch>
-  <copy file="grid2.net.xml"/>
-  <copy file="grid2.rou.xml"/>
-  <copy file="grid2.sumocfg" type="config"/>
-    <copy file="grid2.gui-settings.xml"/>
-</launch>

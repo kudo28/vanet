@@ -135,7 +135,7 @@ void MyDecider80211p::calculateSinrAndSnrMapping(AirFrame* frame, Mapping **sinr
 	ConstMapping* recvPowerMap = signal.getReceivingPower();
 	assert(recvPowerMap);
 
-	//TODO: handle noise of zero (must not devide with zero!)
+	//TODO: handle noise of zero (must not divide by zero!)
 	*sinrMap = MappingUtils::divide( *recvPowerMap, *noiseInterferenceMap, Argument::MappedZero() );
 	*snrMap = MappingUtils::divide( *recvPowerMap, *noiseMap, Argument::MappedZero() );
 

@@ -22,6 +22,12 @@ simple StatisticsCollector
 		@signal[fracInfectedSignal](type="double");
 		@statistic[fracInfected](title="fracInfected"; source="fracInfectedSignal"; record=vector,mean);
 
-		@signal[sigPdr](type="double");
-		@statistic[pdr](title="PacketDeliveryRate"; source="sigPdr"; record=vector,mean);
+		@signal[sigErrorRate](type="double");
+		@statistic[errorRate](title="ErrorRate"; source="sigErrorRate"; record=vector,mean);
+
+		@signal[sigNumOkay](type="long");
+		@statistic[numOkay](title="NumberOkay"; source="sigNumOkay"; record=vector,mean);
+		
+		@signal[sigNumError](type="long");
+		@statistic[numError](title="NumberError"; source="sigNumError"; record=vector,mean);
 }
