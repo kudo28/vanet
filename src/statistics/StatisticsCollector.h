@@ -23,8 +23,8 @@ class StatisticsCollector: public cSimpleModule {
         int numError;
         int numOkay;
         double fracInfected;
-        double errorRate;
-        simsignal_t sigErrorRate;
+        double pdr;
+        simsignal_t sigPdr;
         simsignal_t sigNumOkay;
         simsignal_t sigNumError;
         simsignal_t fracInfectedSignal;

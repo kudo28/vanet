@@ -1,0 +1,11 @@
+<configuration>
+	<input>
+	    <net-file value="grid.net.xml"/>
+	    <route-files value="grid-0p075.rou.xml"/>
+	</input>
+	<time>
+		<begin value="0"/>
+		<end value="3600"/>
+		<step-length value="0.01"/>
+	</time>
+</configuration>

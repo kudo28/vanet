@@ -172,7 +172,7 @@ void MyBaseWaveApplLayer::populateWSM(WaveShortMessage* wsm, int rcvId, int seri
         bsm->addBitLength(beaconLengthBits);
         wsm->setPriority(beaconPriority);
     }
-    else if (WaveServiceAdvertisment* wsa = dynamic_cast<WaveServiceAdvertisment*>(wsm)) {
+    else if (WaveServiceAdvertisement* wsa = dynamic_cast<WaveServiceAdvertisement*>(wsm)) {
         wsa->setChannelNumber(Channels::CCH);
         wsa->setTargetChannel(currentServiceChannel);
         wsa->setPsid(currentOfferedServiceId);
@@ -225,7 +225,7 @@ void MyBaseWaveApplLayer::handleLowerMsg(cMessage* msg) {
         receivedBSMs++;
         onBSM(bsm);
     }
-    else if (WaveServiceAdvertisment* wsa = dynamic_cast<WaveServiceAdvertisment*>(wsm)) {
+    else if (WaveServiceAdvertisement* wsa = dynamic_cast<WaveServiceAdvertisement*>(wsm)) {
         receivedWSAs++;
         onWSA(wsa);
     }
@@ -247,7 +247,7 @@ void MyBaseWaveApplLayer::handleSelfMsg(cMessage* msg) {
         break;
     }
     case SEND_WSA_EVT:   {
-        WaveServiceAdvertisment* wsa = new WaveServiceAdvertisment();
+        WaveServiceAdvertisement* wsa = new WaveServiceAdvertisement();
         populateWSM(wsa);
         sendDown(wsa);
         scheduleAt(simTime() + wsaInterval, sendWSAEvt);
@@ -315,7 +315,7 @@ void MyBaseWaveApplLayer::checkAndTrackPacket(cMessage* msg) {
         DBG_APP << "sending down a BSM" << std::endl;
         generatedBSMs++;
     }
-    else if (dynamic_cast<WaveServiceAdvertisment*>(msg)) {
+    else if (dynamic_cast<WaveServiceAdvertisement*>(msg)) {
         DBG_APP << "sending down a WSA" << std::endl;
         generatedWSAs++;
     }

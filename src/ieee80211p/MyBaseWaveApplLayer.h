@@ -92,7 +92,7 @@ class MyBaseWaveApplLayer : public BaseApplLayer {
         virtual void onBSM(BasicSafetyMessage* bsm) { };
 
         /** @brief this function is called upon receiving a WaveServiceAdvertisment */
-        virtual void onWSA(WaveServiceAdvertisment* wsa) { };
+        virtual void onWSA(WaveServiceAdvertisement* wsa) { };
 
         /** @brief this function is called every time the vehicle receives a position update signal */
         virtual void handlePositionUpdate(cObject* obj);

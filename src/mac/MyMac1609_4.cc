@@ -24,6 +24,8 @@
 #include "veins/modules/phy/DeciderResult80211.h"
 #include "veins/base/phyLayer/PhyToMacControlInfo.h"
 #include "veins/modules/messages/PhyControlMessage_m.h"
+#include "veins/base/utils/Coord.h"
+#include "src/messages/V2VMessage_m.h"
 
 #if OMNETPP_VERSION >= 0x500
 #define OWNER owner->
@@ -321,7 +323,14 @@ void MyMac1609_4::handleUpperMsg(cMessage* msg) {
 }
 
 void MyMac1609_4::handleLowerControl(cMessage* msg) {
-	if (msg->getKind() == MacToPhyInterface::TX_OVER) {
+
+    /*    if (dynamic_cast<V2VMessage*>(msg)) {
+        Coordinate myPosition = this->getParentModule()->getPosition();
+        float d = myPosition.distance(msg->getSenderPosition());
+        printf("Distance: %f \n", d);
+    }*/
+
+    if (msg->getKind() == MacToPhyInterface::TX_OVER) {
 
 		DBG_MAC << "Successfully transmitted a packet on " << lastAC << std::endl;
 

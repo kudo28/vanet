@@ -9,13 +9,13 @@ void StatisticsCollector::initialize() {
     numOkay = 0;
     numError = 0;
     fracInfected = 0;
-    errorRate = 0;
+    pdr = 0;
     fracInfectedSignal = registerSignal("fracInfectedSignal");
-    sigErrorRate = registerSignal("sigErrorRate");
+    sigPdr = registerSignal("sigPdr");
     sigNumOkay = registerSignal("sigNumOkay");
     sigNumError = registerSignal("sigNumError");
     emit(fracInfectedSignal, fracInfected);
-    emit(sigErrorRate, errorRate);
+    emit(sigPdr, pdr);
     emit(sigNumOkay, numOkay);
     emit(sigNumError, numError);
 }
@@ -72,8 +72,8 @@ void StatisticsCollector::incrNumError() {
 }
 
 void StatisticsCollector::updateErrorRate() {
-    errorRate = (double) numOkay / (double) (numError+numOkay);
-    emit(sigErrorRate, errorRate);
+    pdr = (double) numOkay / (double) (numError+numOkay);
+    emit(sigPdr, pdr);
     emit(sigNumOkay, numOkay);
     emit(sigNumError, numError);
 }

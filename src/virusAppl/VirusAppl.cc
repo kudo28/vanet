@@ -141,7 +141,7 @@ void VirusAppl::handleSelfMsg(cMessage* msg) {
     if (timerMessage != NULL && timerMessage->isScheduled()) {
         cancelEvent(timerMessage);
     }
-    scheduleAt(simTime() + (double) par("commInterval"), timerMessage);
+    scheduleAt(simTime() + (double) par("commInterval") + uniform(0,0.2), timerMessage);
 }
 
 

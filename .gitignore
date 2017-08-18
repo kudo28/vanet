@@ -18,3 +18,4 @@ simulations/run
 
 src/vanet.exe
 src/Makefile
+/.computed/

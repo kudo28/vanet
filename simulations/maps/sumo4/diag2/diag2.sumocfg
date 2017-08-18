@@ -1,0 +1,11 @@
+<configuration>
+	<input>
+		<net-file value="diag2.net.xml"/>
+		<route-files value="diag2.rou.alt.xml"/>
+	</input>
+	<time>
+		<begin value="0"/>
+		<end value="3600"/>
+		<step-length value="0.01"/>
+	</time>
+<remote-port value="54594"/><seed value="0"/><random value="false"/></configuration>

@@ -1,0 +1,11 @@
+<configuration>
+	<input>
+		<net-file value="diag1.net.xml"/>
+		<route-files value="diag1-sparse.rou.xml"/>
+	</input>
+	<time>
+		<begin value="0"/>
+		<end value="3600"/>
+		<step-length value="0.01"/>
+	</time>
+<remote-port value="54877"/><seed value="4"/><random value="false"/></configuration>
